@@ -12,7 +12,7 @@ class Container {
 
 private:
 
-  // ...
+  ulong size = 0;
 
 protected:
 
