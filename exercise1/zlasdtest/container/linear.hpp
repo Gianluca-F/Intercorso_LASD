@@ -9,6 +9,34 @@
 // LinearContainer member functions!
 
 template <typename Data>
+void EqualLinear(uint & testnum, uint & testerr, const lasd::LinearContainer<Data> & con1, const lasd::LinearContainer<Data> & con2, bool chk) {
+  bool tst;
+  testnum++;
+  try {
+    std::cout << " " << testnum << " (" << testerr << ") The two vectors are " << ((tst = (con1 == con2)) ? "" : "not ") << "equal: ";
+    std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
+  }
+  catch (std::exception & exc) {
+    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
+  }
+  testerr += (1 - (uint) tst);
+}
+
+template <typename Data>
+void NonEqualLinear(uint & testnum, uint & testerr, const lasd::LinearContainer<Data> & con1, const lasd::LinearContainer<Data> & con2, bool chk) {
+  bool tst;
+  testnum++;
+  try {
+    std::cout << " " << testnum << " (" << testerr << ") The two vectors are " << ((tst = (con1 != con2)) ? "not " : "") << "equal: ";
+    std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
+  }
+  catch (std::exception & exc) {
+    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
+  }
+  testerr += (1 - (uint) tst);
+}
+
+template <typename Data>
 void GetAt(uint & testnum, uint & testerr, const lasd::LinearContainer<Data> & con, bool chk, const ulong & ind, const Data & val) {
   bool tst;
   testnum++;
