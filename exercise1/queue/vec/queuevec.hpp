@@ -9,91 +9,101 @@
 
 /* ************************************************************************** */
 
+#ifndef DEFAULT_QUEUE_DIM
+#define DEFAULT_QUEUE_DIM 10
+#endif
+
+/* ************************************************************************** */
+
 namespace lasd {
 
 /* ************************************************************************** */
 
 template <typename Data>
-class QueueVec {
-  // Must extend Queue<Data>,
-  //             Vector<Data>
+class QueueVec : virtual public Queue<Data>, 
+                 virtual protected Vector<Data> {
 
 private:
 
-  // ...
-
 protected:
 
-  // using Vector<Data>::???;
+  ulong head = 0;
+  ulong tail = 0;
+  ulong numElmts = 0;
 
-  // ...
+  using Vector<Data>::size;
+  using Vector<Data>::Elements;
 
 public:
 
   // Default constructor
-  // QueueVec() specifier;
+  QueueVec() : Vector<Data>(DEFAULT_QUEUE_DIM) {};
 
   /* ************************************************************************ */
 
   // Specific constructor
-  // QueueVec(argument) specifiers; // A stack obtained from a TraversableContainer
-  // QueueVec(argument) specifiers; // A stack obtained from a MappableContainer
+  QueueVec(const TraversableContainer<Data> &);
+  QueueVec(MappableContainer<Data> &&);
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // QueueVec(argument);
+  QueueVec(const QueueVec<Data> &);
 
   // Move constructor
-  // QueueVec(argument);
+  QueueVec(QueueVec<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~QueueVec() specifier;
+  virtual ~QueueVec() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument);
+  QueueVec & operator=(const QueueVec<Data> &);
 
   // Move assignment
-  // type operator=(argument);
+  QueueVec & operator=(QueueVec<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const QueueVec<Data> &) const noexcept;
+  inline bool operator!=(const QueueVec<Data> &) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Queue)
 
-  // type Head() specifiers; // Override Queue member (non-mutable version; must throw std::length_error when empty)
-  // type Head() specifiers; // Override Queue member (mutable version; must throw std::length_error when empty)
-  // type Dequeue() specifiers; // Override Queue member (must throw std::length_error when empty)
-  // type HeadNDequeue() specifiers; // Override Queue member (must throw std::length_error when empty)
-  // type Enqueue(argument) specifiers; // Override Queue member (copy of the value)
-  // type Enqueue(argument) specifiers; // Override Queue member (move of the value)
+  const Data & Head() const override; // (must throw std::length_error when empty)
+  Data & Head() override; // (must throw std::length_error when empty)
+  void Dequeue() override; // (must throw std::length_error when empty)
+  Data HeadNDequeue() override; // (must throw std::length_error when empty)
+  void Enqueue(const Data &) override;
+  void Enqueue(Data &&) override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  // type Empty() specifiers; // Override Container member
-
-  // type Size() specifiers; // Override Container member
+  inline bool Empty() const noexcept override;
+  inline ulong Size() const noexcept override;
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
 
-  // type Clear() specifiers; // Override ClearableContainer member
+  void Clear() override;
 
 protected:
 
-  // Auxiliary functions, if necessary!
+  // Auxiliary member functions
+
+  inline void Expand();
+  inline void Reduce();
+
+  void Resize(ulong, ulong);
 
 };
 
