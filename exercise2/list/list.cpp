@@ -6,12 +6,12 @@ namespace lasd {
 // Comparison operators (Node)
 
 template <typename Data>
-bool List<Data>::Node::operator==(const Node & node) const noexcept {
+inline bool List<Data>::Node::operator==(const Node & node) const noexcept {
   return (element == node.element);
 }
 
 template <typename Data>
-bool List<Data>::Node::operator!=(const Node & node) const noexcept {
+inline bool List<Data>::Node::operator!=(const Node & node) const noexcept {
   return !(*this == node);
 }
 
@@ -115,7 +115,7 @@ bool List<Data>::operator==(const List<Data> & lst) const noexcept {
 }
 
 template <typename Data>
-bool List<Data>::operator!=(const List<Data> & lst) const noexcept {
+inline bool List<Data>::operator!=(const List<Data> & lst) const noexcept {
   return !(*this == lst);
 }
 

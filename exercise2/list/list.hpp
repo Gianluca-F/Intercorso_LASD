@@ -103,7 +103,7 @@ public:
 
   // Comparison operators
   bool operator==(const List<Data> &) const noexcept;
-  bool operator!=(const List<Data> &) const noexcept;
+  inline bool operator!=(const List<Data> &) const noexcept;
 
   /* ************************************************************************ */
 

@@ -81,7 +81,7 @@ public:
   // Specific member functions (inherited from LinearContainer)
 
   // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  const Data& operator[](const ulong) const override;
+  const Data & operator[](const ulong) const override;
   // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
   Data & operator[](const ulong) override;
 
