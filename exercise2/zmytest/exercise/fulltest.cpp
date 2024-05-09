@@ -257,7 +257,7 @@ void testListInt(uint & testnum, uint & testerr) {
     EqualList(loctestnum, loctesterr, l, l1, true);
 
     MapPreOrder(loctestnum, loctesterr, l, true, &MapParityInvert<int>);
-    InsertSomeM(loctestnum, loctesterr, l, true, std::move(v));
+    InsertSomeM(loctestnum, loctesterr, l, false, std::move(v));
     Size(loctestnum, loctesterr, l, true, NUM*1.5);
 
     l1 = l;
@@ -271,7 +271,7 @@ void testListInt(uint & testnum, uint & testerr) {
     }
     Exists(loctestnum, loctesterr, l, true, -1);
   
-    RemoveSome(loctestnum, loctesterr, l, true, v1);
+    RemoveSome(loctestnum, loctesterr, l, false, v1);
     Empty(loctestnum, loctesterr, l, true);
 
     Remove(loctestnum, loctesterr, l, false, 0);
