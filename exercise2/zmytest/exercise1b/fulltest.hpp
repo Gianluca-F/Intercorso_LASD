@@ -1,14 +1,10 @@
 
-#ifndef MYTEST_HPP
-#define MYTEST_HPP
+#ifndef EXC1BMYTEST_HPP
+#define EXC1BMYTEST_HPP
 
-#include <iostream>
 /* ************************************************************************** */
 
-void myTestExc1();
-void myTestExc2();
-
-void myFullTest();
+void myTestFullExercise1B(unsigned int &, unsigned int &);
 
 /* ************************************************************************** */
 

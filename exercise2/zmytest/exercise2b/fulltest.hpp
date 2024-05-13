@@ -1,14 +1,14 @@
 
-#ifndef MYTEST_HPP
-#define MYTEST_HPP
+#ifndef EXC2BMYTEST_HPP
+#define EXC2BMYTEST_HPP
 
 #include <iostream>
 /* ************************************************************************** */
 
-void myTestExc1();
-void myTestExc2();
-
-void myFullTest();
+void myTestFullExercise2B(unsigned int &, unsigned int &)
+{
+    std::cout << "Not implemented yet" << std::endl;
+}
 
 /* ************************************************************************** */
 

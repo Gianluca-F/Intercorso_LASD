@@ -14,14 +14,16 @@ int main() {
 
   std::cout << "Lasd Libraries 2024" << std::endl << std::endl;
 
-  std::cout << " **************************** " << std::endl;
-  std::cout << " *                          * " << std::endl;
-  std::cout << " *   Runnable Test:         * " << std::endl;
-  std::cout << " *                          * " << std::endl;
-  std::cout << " *     (1) zmytest          * " << std::endl;
-  std::cout << " *     (2) zlasdtest        * " << std::endl;
-  std::cout << " *                          * " << std::endl;
-  std::cout << " **************************** " << std::endl << std::endl;
+  std::cout << " ************************************** " << std::endl;
+  std::cout << " *                                    * " << std::endl;
+  std::cout << " *   Runnable Test:                   * " << std::endl;
+  std::cout << " *                                    * " << std::endl;
+  std::cout << " *     (1) zmytest (only exercise1)   * " << std::endl;
+  std::cout << " *     (2) zmytest (only exercise2)   * " << std::endl;
+  std::cout << " *     (3) zmytest (full)             * " << std::endl;
+  std::cout << " *     (4) zlasdtest                  * " << std::endl;
+  std::cout << " *                                    * " << std::endl;
+  std::cout << " ************************************** " << std::endl << std::endl;
   
   std::cout << "Please enter the number of the test you want to run: ";
   std::cin >> test_number;
@@ -29,9 +31,15 @@ int main() {
   switch (test_number)
   {
     case 1:
-      mytest();
+      myTestExc1();
       break;
     case 2:
+      myTestExc2();
+      break;
+    case 3:
+      myFullTest();
+      break;
+    case 4:
       lasdtest();
       break;
     default:

@@ -1,9 +1,10 @@
-#ifndef FULLTEST_HPP
-#define FULLTEST_HPP
+
+#ifndef EXC1AMYTEST_HPP
+#define EXC1AMYTEST_HPP
 
 /* ************************************************************************** */
 
-void testFullExercise(unsigned int &, unsigned int &);
+void myTestFullExercise1A(unsigned int &, unsigned int &);
 
 /* ************************************************************************** */
 

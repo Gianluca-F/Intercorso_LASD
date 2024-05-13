@@ -2,7 +2,7 @@
 cc = g++
 cflags = -Wall -pedantic -O3 -std=c++20 -fsanitize=address
 
-objects = main.o test.o mytest.o container.o exc1as.o exc1af.o exc1bs.o exc1bf.o exc2as.o exc2af.o excsmytest.o exc2bs.o exc2bf.o
+objects = main.o test.o mytest.o container.o exc1as.o exc1af.o exc1bs.o exc1bf.o mytestexc1a.o mytestexc1b.o exc2as.o exc2af.o exc2bs.o exc2bf.o mytestexc2a.o mytestexc2b.o
 
 libcon = container/container.hpp container/testable.hpp container/traversable.cpp container/traversable.hpp container/mappable.cpp container/mappable.hpp container/dictionary.cpp container/dictionary.hpp container/linear.cpp container/linear.hpp
 
@@ -46,6 +46,12 @@ exc1bs.o: $(libexc1b) zlasdtest/exercise1b/simpletest.cpp
 exc1bf.o: $(libexc1b) zlasdtest/exercise1b/fulltest.cpp
 	$(cc) $(cflags) -c zlasdtest/exercise1b/fulltest.cpp -o exc1bf.o
 
+mytestexc1a.o: $(libexc1a) zmytest/exercise1a/fulltest.cpp
+	$(cc) $(cflags) -c zmytest/exercise1a/fulltest.cpp -o mytestexc1a.o
+
+mytestexc1b.o: $(libexc1b) zmytest/exercise1b/fulltest.cpp
+	$(cc) $(cflags) -c zmytest/exercise1b/fulltest.cpp -o mytestexc1b.o
+
 exc2as.o: $(libexc2a) zlasdtest/exercise2a/simpletest.cpp
 	$(cc) $(cflags) -c zlasdtest/exercise2a/simpletest.cpp -o exc2as.o
 
@@ -58,5 +64,8 @@ exc2bs.o: $(libexc2b) zlasdtest/exercise2b/simpletest.cpp
 exc2bf.o: $(libexc2b) zlasdtest/exercise2b/fulltest.cpp
 	$(cc) $(cflags) -c zlasdtest/exercise2b/fulltest.cpp -o exc2bf.o
 
-excsmytest.o: zmytest/exercise/fulltest.cpp
-	$(cc) $(cflags) -c zmytest/exercise/fulltest.cpp -o excsmytest.o
+mytestexc2a.o: $(libexc2a) zmytest/exercise2a/fulltest.cpp
+	$(cc) $(cflags) -c zmytest/exercise2a/fulltest.cpp -o mytestexc2a.o
+
+mytestexc2b.o: $(libexc2b) zmytest/exercise2b/fulltest.cpp
+	$(cc) $(cflags) -c zmytest/exercise2b/fulltest.cpp -o mytestexc2b.o
