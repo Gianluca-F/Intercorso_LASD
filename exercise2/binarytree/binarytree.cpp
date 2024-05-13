@@ -8,9 +8,9 @@ namespace lasd {
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node & node) const noexcept {
   if(Element() != node.Element()) { return false; }
-  if(HasLeftChild() != node.HasLeftChild())  { return false; }
+  if(HasLeftChild() != node.HasLeftChild())   { return false; }
   if(HasRightChild() != node.HasRightChild()) { return false; }
-  if(HasLeftChild() && LeftChild().operator!=(node.LeftChild()))   { return false; }
+  if(HasLeftChild() && LeftChild().operator!=(node.LeftChild()))    { return false; }
   if(HasRightChild() && RightChild().operator!=(node.RightChild())) { return false; }
   
   return true;

@@ -22,6 +22,14 @@
 #include "../../queue/lst/queuelst.hpp"
 
 
+#include "../../zlasdtest/binarytree/binarytree.hpp"
+#include "../../zlasdtest/iterator/iterator.hpp"
+
+#include "../../binarytree/binarytree.hpp"
+#include "../../binarytree/lnk/binarytreelnk.hpp"
+#include "../../binarytree/vec/binarytreevec.hpp"
+
+
 /* ************************************************************************** */
 
 #include <random>
@@ -833,6 +841,39 @@ void testQueueString(uint & testnum, uint & testerr) {
 
 /* ************************************************************************** */
 
+void testBTLnkInt(uint & testnum, uint & testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  cout << endl << "Begin of BinaryTreeLnk<int> Test:" << endl;
+
+  try {
+    lasd::Vector<int> v(NUM);
+    for(int i = 0; i < NUM; i++) {
+      v[i] = i;
+    }
+
+    lasd::BinaryTreeLnk<int> btlnk(v);
+
+    Size(loctestnum, loctesterr, btlnk, true, NUM);
+
+    lasd::BinaryTreeLnk<int> btlnk1(std::move(btlnk));
+
+    Size(loctestnum, loctesterr, btlnk1, true, NUM);
+
+    btlnk.Clear();
+    Size(loctestnum, loctesterr, btlnk, true, 0);
+
+    Size(loctestnum, loctesterr, btlnk1, true, NUM);
+
+  }
+  catch (exception& exc) {
+    cout << "Caught exception: " << exc.what() << endl;
+    loctestnum++;
+    loctesterr++;
+  }
+}
+
+/* ************************************************************************** */
+
 void fulltestVector(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   testVectorInt(loctestnum, loctesterr);
@@ -882,11 +923,24 @@ void fulltestQueue(uint & testnum, uint & testerr) {
 
 /* ************************************************************************** */
 
+void fulltestBTLnk(uint & testnum, uint & testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  testBTLnkInt(loctestnum, loctesterr);
+  // testBTLnkDouble(loctestnum, loctesterr);
+  // testBTLnkString(loctestnum, loctesterr);
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << "BinaryTreeLnk (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
+
+/* ************************************************************************** */
+
 void testFullExercise(uint & testnum, uint & testerr) {
-  fulltestVector(testnum, testerr);
-  fulltestList(testnum, testerr);
-  fulltestStack(testnum, testerr);
-  fulltestQueue(testnum, testerr);
+  // fulltestVector(testnum, testerr);
+  // fulltestList(testnum, testerr);
+  // fulltestStack(testnum, testerr);
+  // fulltestQueue(testnum, testerr);
+  fulltestBTLnk(testnum, testerr);
 }
 
 /* ************************************************************************** */

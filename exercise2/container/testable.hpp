@@ -42,7 +42,7 @@ public:
 
   // Specific member function
   
-  virtual bool Exists(const Data&) const noexcept = 0;
+  virtual bool Exists(const Data &) const noexcept = 0;
 
 };
 

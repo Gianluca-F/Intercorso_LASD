@@ -226,7 +226,7 @@ BinaryTreeLnk<Data> & BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data> && tree
 // Comparison operators (BinaryTreeLnk)
 
 template <typename Data>
-bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk<Data> & tree) const noexcept {
+inline bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk<Data> & tree) const noexcept {
   return BinaryTree<Data>::operator==(tree);
 }
 
