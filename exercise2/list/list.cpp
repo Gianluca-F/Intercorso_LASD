@@ -129,7 +129,7 @@ void List<Data>::InsertAtFront(const Data & dat) {
   tmp->next = head;
   head = tmp;
   if(size == 0) tail = head;
-  size++;
+  ++size;
 }
 
 template <typename Data>
@@ -138,7 +138,7 @@ void List<Data>::InsertAtFront(Data && dat) {
   tmp->next = head;
   head = tmp;
   if(size == 0) tail = head;
-  size++;
+  ++size;
 }
 
 template <typename Data>
@@ -152,7 +152,7 @@ void List<Data>::RemoveFromFront() {
   }
   tmp->next = nullptr;
   delete tmp;
-  size--;
+  --size;
 }
 
 template <typename Data>
@@ -172,7 +172,7 @@ void List<Data>::InsertAtBack(const Data & dat) {
     tail->next = tmp;
     tail = tmp;
   }
-  size++;
+  ++size;
 }
 
 template <typename Data>
@@ -184,7 +184,7 @@ void List<Data>::InsertAtBack(Data && dat) {
     tail->next = tmp;
     tail = tmp;
   }
-  size++;
+  ++size;
 }
 
 /* ************************************************************************** */
@@ -232,7 +232,7 @@ bool List<Data>::Remove(const Data & dat) {
       if(tail == tmp1) tail = tmp2;
       tmp1->next = nullptr;
       delete tmp1;
-      size--;
+      --size;
       return true;
     }
     tmp2 = tmp1;
@@ -249,7 +249,7 @@ template <typename Data>
 const Data & List<Data>::operator[](const ulong i) const {
   if(i >= size) throw std::out_of_range("Access at index" + std::to_string(i) + "; list size " + std::to_string(size) + "!");
   Node * tmp = head;
-  for(ulong j = 0; j < i; j++) {
+  for(ulong j = 0; j < i; ++j) {
     tmp = tmp->next;
   }
   return tmp->element;
@@ -259,7 +259,7 @@ template <typename Data>
 Data & List<Data>::operator[](const ulong i) {
   if(i >= size) throw std::out_of_range("Access at index" + std::to_string(i) + "; list size " + std::to_string(size) + "!");
   Node * tmp = head;
-  for(ulong j = 0; j < i; j++) {
+  for(ulong j = 0; j < i; ++j) {
     tmp = tmp->next;
   }
   return tmp->element;

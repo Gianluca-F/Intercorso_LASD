@@ -75,13 +75,18 @@ BST<Data> & BST<Data>::operator=(BST<Data> && tree) noexcept {
 template <typename Data>
 bool BST<Data>::operator==(const BST<Data> & tree) const noexcept {
   if(size != tree.size) { return false; }
-  bool equal = true;
-  InOrderTraverse(
-    [&tree, &equal](const Data & dat) {
-      equal &= tree.Exists(dat);
-    }
-  );
-  return equal;
+
+  BTInOrderIterator<Data> bst1(*this);
+  BTInOrderIterator<Data> bst2(tree);
+
+  while(!bst1.Terminated())
+  {
+    if(*bst1 != *bst2) { return false; }
+    ++bst1;
+    ++bst2;
+  }
+
+  return true;
 }
 
 template <typename Data>
@@ -192,7 +197,7 @@ bool BST<Data>::Insert(const Data & dat) {
     }
     node = new NodeLnk(dat);
   }
-  size++;
+  ++size;
   return true;
 }
 
@@ -207,7 +212,7 @@ bool BST<Data>::Insert(Data && dat) {
     }
     node = new NodeLnk(std::move(dat));
   }
-  size++;
+  ++size;
   return true;
 }
 
@@ -256,7 +261,7 @@ typename BST<Data>::NodeLnk * BST<Data>::Detach(NodeLnk *& node) noexcept {
     std::swap(tmp, min);
     std::swap(tmp->element, node->element);
   }
-  size--;
+  --size;
   return tmp;
 }
 
@@ -266,7 +271,7 @@ typename BST<Data>::NodeLnk * BST<Data>::DetachMin(NodeLnk *& node) noexcept {
   NodeLnk * tmp = nullptr;
   std::swap(tmp, min->right);
   std::swap(tmp, min);
-  size--;
+  --size;
   return tmp;
 }
 
@@ -276,7 +281,7 @@ typename BST<Data>::NodeLnk * BST<Data>::DetachMax(NodeLnk *& node) noexcept {
   NodeLnk * tmp = nullptr;
   std::swap(tmp, max->left);
   std::swap(tmp, max);
-  size--;
+  --size;
   return tmp;
 }
 

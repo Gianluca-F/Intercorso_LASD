@@ -146,7 +146,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const TraversableContainer<Data> & con) {
   ulong i = 0;
   con.Traverse([this, &i](const Data & data) {
     tree[i] = new NodeVec(data, i, this);
-    i++;
+    ++i;
   });
 }
 
@@ -157,7 +157,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(MappableContainer<Data> && con) {
   ulong i = 0;
   con.Map([this, &i](Data && data) {
     tree[i] = new NodeVec(std::move(data), i, this);
-    i++;
+    ++i;
   });
 }
 
@@ -168,7 +168,7 @@ template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> & bt) {
   size = bt.size;
   tree = Vector<NodeVec*>(size);
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     tree[i] = new NodeVec((bt.tree[i])->element, i, this);
   }
 }
@@ -186,7 +186,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> && bt) noexcept {
 
 template <typename Data>
 BinaryTreeVec<Data>::~BinaryTreeVec() {
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     delete tree[i];
   }
 }
@@ -200,7 +200,7 @@ BinaryTreeVec<Data> & BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data> &
     Clear();
     size = bt.size;
     tree = Vector<NodeVec*>(size);
-    for(ulong i = 0; i < size; i++) {
+    for(ulong i = 0; i < size; ++i) {
       tree[i] = new NodeVec((bt.tree[i])->element, i, this);
     }
   }
@@ -222,7 +222,7 @@ BinaryTreeVec<Data> & BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data> && bt) 
 template <typename Data>
 bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec<Data> & bt) const noexcept {
   if(size != bt.size) { return false; }
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     if(*tree[i] != *bt.tree[i]) { return false; }
   }
   return true;
@@ -259,7 +259,7 @@ MutableBinaryTree<Data>::MutableNode & BinaryTreeVec<Data>::Root() {
 
 template <typename Data>
 void BinaryTreeVec<Data>::Clear() {
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     delete tree[i];
     tree[i] = nullptr;
   }
@@ -273,7 +273,7 @@ void BinaryTreeVec<Data>::Clear() {
 
 template <typename Data>
 void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun fun) const {
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     if(tree[i]->exists) {
       fun(tree[i]->element);
     }
@@ -286,7 +286,7 @@ void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun fun) const {
 
 template <typename Data>
 void BinaryTreeVec<Data>::BreadthMap(MapFun fun) {
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     if(tree[i]->exists) {
       fun(tree[i]->element);
     }

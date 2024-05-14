@@ -40,7 +40,7 @@ inline void LinearContainer<Data>::Traverse(TraverseFun fun) const {
 
 template <typename Data>
 inline void LinearContainer<Data>::PreOrderTraverse(TraverseFun fun) const {
-  for(ulong i = 0; i < size; i++){
+  for(ulong i = 0; i < size; ++i){
     fun(operator[](i));
   }
 }
@@ -71,7 +71,7 @@ inline void LinearContainer<Data>::Map(MapFun fun) {
 
 template <typename Data>
 inline void LinearContainer<Data>::PreOrderMap(MapFun fun) {
-  for(ulong i = 0; i < size; i++){
+  for(ulong i = 0; i < size; ++i){
     fun(operator[](i));
   }
 }
@@ -95,7 +95,7 @@ template <typename Data>
 bool LinearContainer<Data>::operator==(const LinearContainer<Data>& linearContainer) const noexcept {
   if(size != linearContainer.size) { return false; }
 
-  for(ulong i = 0; i < size; i++){
+  for(ulong i = 0; i < size; ++i){
     if(operator[](i) != linearContainer[i]) { return false; }
   }
 
@@ -132,8 +132,8 @@ ulong SortableLinearContainer<Data>::Partition(ulong left, ulong right) noexcept
   ulong j = right + 1;
 
   do{
-    do{ i++; } while(operator[](i) < x);
-    do{ j--; } while(operator[](j) > x);
+    do{ ++i; } while(operator[](i) < x);
+    do{ --j; } while(operator[](j) > x);
 
     if(i < j) { std::swap(operator[](i), operator[](j)); }
   }while(i < j);

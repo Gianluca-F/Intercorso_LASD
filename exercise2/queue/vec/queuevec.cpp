@@ -64,7 +64,7 @@ bool QueueVec<Data>::operator==(const QueueVec<Data> & queue) const noexcept {
   if(numElmts != queue.numElmts) {
     return false;
   }
-  for(ulong i = 0; i < numElmts; i++) {
+  for(ulong i = 0; i < numElmts; ++i) {
     if(Elements[(head + i) % size] != queue.Elements[(queue.head + i) % queue.size]) {
       return false;
     }
@@ -103,7 +103,7 @@ void QueueVec<Data>::Dequeue() {
     throw std::length_error("Queue is empty");
   }
   head = (head + 1) % size;
-  numElmts--;
+  --numElmts;
   Reduce();
 };
 
@@ -121,7 +121,7 @@ void QueueVec<Data>::Enqueue(const Data & dat) {
   }
   Elements[tail] = dat;
   tail = (tail + 1) % size;
-  numElmts++;
+  ++numElmts;
 };
 
 template <typename Data>
@@ -131,7 +131,7 @@ void QueueVec<Data>::Enqueue(Data && dat) {
   }
   Elements[tail] = std::move(dat);
   tail = (tail + 1) % size;
-  numElmts++;
+  ++numElmts;
 };
 
 
@@ -177,7 +177,7 @@ inline void QueueVec<Data>::Reduce() {
 template <typename Data>
 void QueueVec<Data>::Resize(ulong newsize, ulong numElmts) {
   Data * newElements = new Data[newsize];
-  for(ulong i = 0; i < numElmts; i++) {
+  for(ulong i = 0; i < numElmts; ++i) {
     newElements[i] = std::move(Elements[(head + i) % size]);
   }
   std::swap(Elements, newElements);

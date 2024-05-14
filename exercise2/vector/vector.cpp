@@ -82,7 +82,7 @@ bool Vector<Data>::operator==(const Vector<Data> & vec) const noexcept {
   if(size != vec.size){
     return false;
   }
-  for(ulong i = 0; i < size; i++){
+  for(ulong i = 0; i < size; ++i){
     if(Elements[i] != vec.Elements[i]){
       return false;
     }
@@ -118,7 +118,7 @@ void Vector<Data>::Resize(const ulong newSize) {
     Data * tmpElements = new Data[newSize] {};
     ulong minSize = std::min(size, newSize);
 
-    for (ulong i = 0; i < minSize; i++) {
+    for (ulong i = 0; i < minSize; ++i) {
       std::swap(Elements[i], tmpElements[i]);
     }
 

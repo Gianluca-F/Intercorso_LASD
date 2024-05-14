@@ -10,7 +10,7 @@
 /* ************************************************************************** */
 
 int main() {
-  short test_number;
+  char test_number;
 
   std::cout << "Lasd Libraries 2024" << std::endl << std::endl;
 
@@ -30,16 +30,16 @@ int main() {
 
   switch (test_number)
   {
-    case 1:
+    case '1':
       myTestExc1();
       break;
-    case 2:
+    case '2':
       myTestExc2();
       break;
-    case 3:
+    case '3':
       myFullTest();
       break;
-    case 4:
+    case '4':
       lasdtest();
       break;
     default:

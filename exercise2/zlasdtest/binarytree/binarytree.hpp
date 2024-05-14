@@ -22,7 +22,7 @@ void GetElement(uint & testnum, uint & testerr, const typename lasd::BinaryTree<
 }
 
 template <typename Data>
-void SetElement(uint & testnum, uint & testerr, const typename lasd::BinaryTree<Data>::Node & nod, bool chk, const Data & val) {
+void SetElement(uint & testnum, uint & testerr, typename lasd::MutableBinaryTree<Data>::MutableNode & nod, bool chk, const Data & val) {
   bool tst;
   testnum++;
   try {

@@ -53,7 +53,7 @@ bool StackVec<Data>::operator==(const StackVec<Data> & stack) const noexcept {
   if (index != stack.index) {
     return false;
   }
-  for (ulong i = 0; i < index; i++) {
+  for (ulong i = 0; i < index; ++i) {
     if (Elements[i] != stack.Elements[i]) {
       return false;
     }
@@ -92,7 +92,7 @@ void StackVec<Data>::Pop() {
     throw std::length_error("Stack is empty");
   }
   Reduce();
-  index--;
+  --index;
 }
 
 template <typename Data>
