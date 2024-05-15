@@ -35,8 +35,8 @@
 
 /* ************************************************************************** */
 
-// #define NUM 200
-// #define MAX 50      
+#define NUM 200
+#define MAX 50      
 
 /* ************************************************************************** */
 
@@ -48,14 +48,115 @@ namespace mytest {
 
 /* ************************************************************************** */
 
+void myTestBTint(uint & testnum, uint & testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  cout << endl << "Begin of BinaryTree<int> Test:" << endl;
+
+  try {
+    cout << endl << "~ BinaryTreeVec<int> Test:" << endl;
+   
+    // BinaryTreeVec empty
+    lasd::BinaryTreeVec<int> btv_empty;
+    Root<int>(loctestnum, loctesterr, btv_empty, false, 10);
+
+    // BinaryTreeVec with one element
+    lasd::Vector<int> v1(1);  v1[0] = -5;
+    lasd::BinaryTreeVec<int> btv_one(v1);
+
+    GetElement<int>(loctestnum, loctesterr, btv_one.Root(), true, -5);
+    HasLeftChild<int>(loctestnum, loctesterr, btv_one.Root(), false);
+    HasRightChild<int>(loctestnum, loctesterr, btv_one.Root(), false);
+    IsLeaf<int>(loctestnum, loctesterr, btv_one.Root(), true);
+
+    // BinaryTreeVec with many elements
+    lasd::Vector<int> v2(NUM);
+    for (uint i = 0; i < NUM; i++) {
+      v2[i] = i*i;
+    }
+    lasd::BinaryTreeVec<int> btv_many(v2);
 
 
 
 
+
+    cout << endl << "~ BinaryTreeLnk<int> Test:" << endl;
+
+    // BinaryTreeLnk empty
+    lasd::BinaryTreeLnk<int> btl_empty;
+    Root<int>(loctestnum, loctesterr, btl_empty, false, 0);
+
+    // BinaryTreeLnk with one element
+    lasd::List<int> l1;  l1.InsertAtBack(0);
+    lasd::BinaryTreeLnk<int> btl_one(l1);
+
+    GetElement<int>(loctestnum, loctesterr, btl_one.Root(), true, 0);
+    HasLeftChild<int>(loctestnum, loctesterr, btl_one.Root(), false);
+    HasRightChild<int>(loctestnum, loctesterr, btl_one.Root(), false);
+    IsLeaf<int>(loctestnum, loctesterr, btl_one.Root(), true);
+
+    cout << endl << "Begin of BinaryTreeVec/Lnk<int> Test:" << endl;
+    EqualBT<int>(loctestnum, loctesterr, btv_empty, btl_empty);
+    NonEqualBT<int>(loctestnum, loctesterr, btv_empty, btl_one);
+
+  } catch (exception& exc) {
+    cout << "Caught exception: " << exc.what() << endl;
+    loctestnum++;
+    loctesterr++;
+  }
+
+  testerr += loctesterr;
+  testnum += loctestnum;
+  cout << endl << "BinaryTree<int> (Error/Tests: " << loctesterr << "/" << loctestnum << ")" << endl; 
+}
+
+/* ************************************************************************** */
+
+void myTestBTdouble(uint & testnum, uint & testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  cout << endl << "Begin of BinaryTree<double> Test:" << endl;
+
+  try {
+
+  } catch (exception& exc) {
+    cout << "Caught exception: " << exc.what() << endl;
+    loctestnum++;
+    loctesterr++;
+  }
+
+  testerr += loctesterr;
+  testnum += loctestnum;
+  cout << "BinaryTree<double> (Error/Tests: " << loctesterr << "/" << loctestnum << ")" << endl; 
+}
+
+/* ************************************************************************** */
+
+void myTestBTstring(uint & testnum, uint & testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  cout << endl << "Begin of BinaryTree<string> Test:" << endl;
+
+  try {
+
+  } catch (exception& exc) {
+    cout << "Caught exception: " << exc.what() << endl;
+    loctestnum++;
+    loctesterr++;
+  }
+
+  testerr += loctesterr;
+  testnum += loctestnum;
+  cout << "BinaryTree<string> (Error/Tests: " << loctesterr << "/" << loctestnum << ")" << endl; 
+}
+
+/* ************************************************************************** */
 
 void myTestBinaryTree(uint & testnum, uint & testerr) {
-  uint loctestnum, loctesterr;
-  cout << "ciao";
+  uint loctestnum = 0, loctesterr = 0;
+  myTestBTint(testnum, testerr);
+  myTestBTdouble(testnum, testerr);
+  myTestBTstring(testnum, testerr);
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << "BinaryTree (Error/Tests: " << loctesterr << "/" << loctestnum << ")" << endl; 
 }
 
 /* ************************************************************************** */
