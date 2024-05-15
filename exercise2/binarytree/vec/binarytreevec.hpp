@@ -151,10 +151,6 @@ public:
   using typename MappableContainer<Data>::MapFun;
 
   void BreadthMap(MapFun) override;
-  
-protected:
-
-  // Auxiliary functions, if necessary!
 
 };
 
