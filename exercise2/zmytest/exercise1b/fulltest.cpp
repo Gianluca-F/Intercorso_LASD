@@ -37,6 +37,10 @@ using namespace std;
 
 /* ************************************************************************** */
 
+namespace mytest {
+
+/* ************************************************************************** */
+
 template <typename Stk>
 void myTestStackInt(Stk & stk, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;  
@@ -500,3 +504,5 @@ void myTestFullExercise1B(uint & testnum, uint & testerr) {
 }
 
 /* ************************************************************************** */
+
+}

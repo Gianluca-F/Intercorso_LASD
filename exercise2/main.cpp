@@ -31,13 +31,13 @@ int main() {
   switch (test_number)
   {
     case '1':
-      myTestExc1();
+      mytest::myTestExc1();
       break;
     case '2':
-      myTestExc2();
+      mytest::myTestExc2();
       break;
     case '3':
-      myFullTest();
+      mytest::myFullTest();
       break;
     case '4':
       lasdtest();

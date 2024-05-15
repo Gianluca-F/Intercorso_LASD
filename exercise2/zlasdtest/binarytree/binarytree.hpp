@@ -26,7 +26,7 @@ void SetElement(uint & testnum, uint & testerr, typename lasd::MutableBinaryTree
   bool tst;
   testnum++;
   try {
-    std::cout << " " << testnum << " (" << testerr << ") Setting the front of the linear container to \"" << val << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") Setting the data of the node to \"" << val << "\": ";
     nod.Element() = val;
     std::cout << ((tst = ((nod.Element() == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   }

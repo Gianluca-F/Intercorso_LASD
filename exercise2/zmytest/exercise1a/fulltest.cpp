@@ -13,16 +13,6 @@
 
 #include "../../zlasdtest/list/list.hpp"
 
-
-
-// #include "../../zlasdtest/binarytree/binarytree.hpp"
-// #include "../../zlasdtest/iterator/iterator.hpp"
-
-// #include "../../binarytree/binarytree.hpp"
-// #include "../../binarytree/lnk/binarytreelnk.hpp"
-// #include "../../binarytree/vec/binarytreevec.hpp"
-
-
 /* ************************************************************************** */
 
 #include <random>
@@ -36,6 +26,10 @@
 /* ************************************************************************** */
 
 using namespace std;
+
+/* ************************************************************************** */
+
+namespace mytest {
 
 /* ************************************************************************** */
 
@@ -431,3 +425,5 @@ void myTestFullExercise1A(uint & testnum, uint & testerr) {
 }
 
 /* ************************************************************************** */
+
+}
