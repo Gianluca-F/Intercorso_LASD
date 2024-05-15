@@ -169,7 +169,7 @@ inline void QueueVec<Data>::Expand() {
 
 template <typename Data>
 inline void QueueVec<Data>::Reduce() {
-  if(numElmts <= size / 4 && size > DEFAULT_QUEUE_DIM) {
+  if(numElmts <= size / 4 && (size/1.5) > DEFAULT_QUEUE_DIM) {
     Resize(size / 1.5, numElmts);
   }
 };
@@ -183,7 +183,7 @@ void QueueVec<Data>::Resize(ulong newsize, ulong numElmts) {
   std::swap(Elements, newElements);
   delete[] newElements;
   head = 0;
-  tail = numElmts - 1;
+  tail = numElmts;
   size = newsize;
 };
 

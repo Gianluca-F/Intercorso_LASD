@@ -128,6 +128,9 @@ template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> && bt) noexcept {
   std::swap(size, bt.size);
   std::swap(tree, bt.tree);
+  for(ulong i = 0; i < size; ++i) {
+    tree[i]->treeVec = this;
+  }
 }
 
 /* ************************************************************************** */
@@ -162,6 +165,9 @@ template <typename Data>
 BinaryTreeVec<Data> & BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data> && bt) noexcept {
   std::swap(size, bt.size);
   std::swap(tree, bt.tree);
+  for(ulong i = 0; i < size; ++i) {
+    tree[i]->treeVec = this;
+  }
   return *this;
 }
 
