@@ -52,7 +52,7 @@ inline bool BinaryTree<Data>::operator!=(const BinaryTree<Data> & tree) const no
 
 template <typename Data>
 inline void BinaryTree<Data>::Traverse(TraverseFun fun) const {
-  BreadthTraverse(fun, Root());
+  BreadthTraverse(fun);
 }
 
 /* ************************************************************************** */
@@ -135,7 +135,7 @@ void BinaryTree<Data>::BreadthTraverse(TraverseFun fun, const Node & node) const
 
 template <typename Data>
 inline void MutableBinaryTree<Data>::Map(MapFun fun) {
-  BreadthMap(fun, Root());
+  BreadthMap(fun);
 }
 
 /* ************************************************************************** */

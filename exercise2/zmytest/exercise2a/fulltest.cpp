@@ -89,6 +89,7 @@ void myTestBTint(uint & testnum, uint & testerr) {
     lasd::BinaryTreeVec<int> btv3_empty(btv2_empty);
     Empty(loctestnum, loctesterr, btv_empty, true);
     Size(loctestnum, loctesterr, btv2_empty, true, 0);
+    Exists(loctestnum, loctesterr, btv_empty, false, 0);
 
     Root<int>(loctestnum, loctesterr, btv_empty, false, 10);
     EqualBT<int>(loctestnum, loctesterr, btv_empty, btv2_empty);
@@ -172,6 +173,7 @@ void myTestBTint(uint & testnum, uint & testerr) {
     lasd::BinaryTreeLnk<int> btl_empty;
     lasd::BinaryTreeLnk<int> btl2_empty;
     Root<int>(loctestnum, loctesterr, btl_empty, false, 0);
+    Exists(loctestnum, loctesterr, btl_empty, false, 0);
     EqualBT<int>(loctestnum, loctesterr, btl_empty, btl2_empty);
 
     // BinaryTreeLnk with one element

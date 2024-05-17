@@ -55,17 +55,21 @@ void myTestBSTint(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of BST<int> Test:" << endl;
   try {
-    lasd::BST<int> bst_empty;
+    // BST empty
+    lasd::BST<int> bst;
     lasd::BinaryTreeLnk<int> btl_empty;
     lasd::BinaryTreeVec<int> btv_empty;
 
-    Empty(loctestnum, loctesterr, bst_empty, true);
-    Size(loctestnum, loctesterr, bst_empty, true, 0);
+    Empty(loctestnum, loctesterr, bst, true);
+    Size(loctestnum, loctesterr, bst, true, 0);
+    Exists(loctestnum, loctesterr, bst, false, 0);
 
-    EqualBT(loctestnum, loctesterr, bst_empty, btl_empty);
-    EqualBT(loctestnum, loctesterr, bst_empty, btl_empty);
-    EqualBT(loctestnum, loctesterr, bst_empty, btv_empty);
-    EqualBST(loctestnum, loctesterr, bst_empty, bst_empty);
+    EqualBT(loctestnum, loctesterr, bst, btl_empty);
+    EqualBT(loctestnum, loctesterr, bst, btl_empty);
+    EqualBT(loctestnum, loctesterr, bst, btv_empty);
+    EqualBST(loctestnum, loctesterr, bst, bst);
+
+    
 
 
   } catch (exception & exc) {
