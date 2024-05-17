@@ -10,7 +10,7 @@ template <typename Accumulator>
 inline Accumulator TraversableContainer<Data>::Fold(FoldFun<Accumulator> fun, Accumulator acc) const {
   Traverse(
     [fun, &acc](const Data& data) {
-        acc = fun(data, acc);
+      acc = fun(data, acc);
     }
   );
   return acc;
@@ -21,7 +21,7 @@ inline bool TraversableContainer<Data>::Exists(const Data& val) const noexcept {
   bool found = false;
   Traverse(
     [val, &found](const Data& data) {
-    found |= (data == val);
+      found |= (data == val);
     }
   );
   return found;
@@ -36,7 +36,7 @@ template <typename Accumulator>
 inline Accumulator PreOrderTraversableContainer<Data>::PreOrderFold(FoldFun<Accumulator> fun, Accumulator acc) const {
   PreOrderTraverse(
     [fun, &acc](const Data& data) {
-        acc = fun(data, acc);
+      acc = fun(data, acc);
     }
   );
   return acc;
@@ -56,7 +56,7 @@ template <typename Accumulator>
 inline Accumulator PostOrderTraversableContainer<Data>::PostOrderFold(FoldFun<Accumulator> fun, Accumulator acc) const {
   PostOrderTraverse(
     [fun, &acc](const Data& data) {
-        acc = fun(data, acc);
+      acc = fun(data, acc);
     }
   );
   return acc;
@@ -76,7 +76,7 @@ template <typename Accumulator>
 inline Accumulator InOrderTraversableContainer<Data>::InOrderFold(FoldFun<Accumulator> fun, Accumulator acc) const {
   InOrderTraverse(
     [fun, &acc](const Data& data) {
-        acc = fun(data, acc);
+      acc = fun(data, acc);
     }
   );
   return acc;
@@ -96,7 +96,7 @@ template <typename Accumulator>
 inline Accumulator BreadthTraversableContainer<Data>::BreadthFold(FoldFun<Accumulator> fun, Accumulator acc) const {
   BreadthTraverse(
     [fun, &acc](const Data& data) {
-        acc = fun(data, acc);
+      acc = fun(data, acc);
     }
   );
   return acc;

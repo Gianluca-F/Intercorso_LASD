@@ -1,9 +1,10 @@
+
 #include <iostream>
 
 /* ************************************************************************** */
 
 #include "../../zlasdtest/container/container.hpp"
-// #include "../../zlasdtest/container/testable.hpp"
+#include "../../zlasdtest/container/testable.hpp"
 #include "../../zlasdtest/container/dictionary.hpp"
 #include "../../zlasdtest/container/traversable.hpp"
 #include "../../zlasdtest/container/mappable.hpp"
@@ -30,7 +31,6 @@
 
 /* ************************************************************************** */
 
-#include <random>
 #include <cstring>
 
 /* ************************************************************************** */
@@ -67,8 +67,7 @@ void myTestBT(lasd::BinaryTree<Data> & bt, uint & testnum, uint & testerr, Data 
     FoldPostOrder(testnum, testerr, bt, true, &FoldMultiply<int>, 1, expc_res_mul);
     FoldInOrder(testnum, testerr, bt, true, &FoldMultiply<int>, 1, expc_res_mul);
     FoldBreadth(testnum, testerr, bt, true, &FoldMultiply<int>, 1, expc_res_mul);
-  }
-  catch (...) {
+  } catch (...) {
     testnum++; testerr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -86,8 +85,11 @@ void myTestBTint(uint & testnum, uint & testerr) {
     // BinaryTreeVec empty
     cout << "\n~~~ BinaryTreeVec empty ~~~\n" << endl;
     lasd::BinaryTreeVec<int> btv_empty;
-    lasd::BinaryTreeLnk<int> btv2_empty;
-    lasd::BinaryTreeVec<int> btv3_empty(btv_empty);
+    lasd::BinaryTreeVec<int> btv2_empty;
+    lasd::BinaryTreeVec<int> btv3_empty(btv2_empty);
+    Empty(loctestnum, loctesterr, btv_empty, true);
+    Size(loctestnum, loctesterr, btv2_empty, true, 0);
+
     Root<int>(loctestnum, loctesterr, btv_empty, false, 10);
     EqualBT<int>(loctestnum, loctesterr, btv_empty, btv2_empty);
     EqualBT<int>(loctestnum, loctesterr, btv_empty, btv3_empty);
@@ -132,6 +134,7 @@ void myTestBTint(uint & testnum, uint & testerr) {
     }
     lasd::BinaryTreeVec<int> btv_many(v2);
 
+    Exists(loctestnum, loctesterr, btv_many, true, 19);
     GetElement<int>(loctestnum, loctesterr, btv_many.Root(), true, 0);
     HasLeftChild<int>(loctestnum, loctesterr, btv_many.Root(), true);
     HasRightChild<int>(loctestnum, loctesterr, btv_many.Root(), true);
@@ -203,6 +206,7 @@ void myTestBTint(uint & testnum, uint & testerr) {
     cout << "\n~~~ BinaryTreeLnk with many elements (created using a vector) ~~~\n" << endl;
     lasd::BinaryTreeLnk<int> btl_many(v2);
 
+    Exists(loctestnum, loctesterr, btl_many, true, 10);
     GetElement<int>(loctestnum, loctesterr, btl_many.Root(), true, 0);
     HasLeftChild<int>(loctestnum, loctesterr, btl_many.Root(), true);
     HasRightChild<int>(loctestnum, loctesterr, btl_many.Root(), true);
