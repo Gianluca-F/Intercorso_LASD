@@ -3,7 +3,7 @@
 /* ************************************************************************** */
 
 #include "../../zlasdtest/container/container.hpp"
-#include "../../zlasdtest/container/testable.hpp"
+// #include "../../zlasdtest/container/testable.hpp"
 #include "../../zlasdtest/container/dictionary.hpp"
 #include "../../zlasdtest/container/traversable.hpp"
 #include "../../zlasdtest/container/mappable.hpp"
@@ -13,13 +13,13 @@
 
 #include "../../zlasdtest/list/list.hpp"
 
-#include "../../zlasdtest/stack/stack.hpp"
-#include "../../stack/vec/stackvec.hpp"
-#include "../../stack/lst/stacklst.hpp"
+// #include "../../zlasdtest/stack/stack.hpp"
+// #include "../../stack/vec/stackvec.hpp"
+// #include "../../stack/lst/stacklst.hpp"
 
-#include "../../zlasdtest/queue/queue.hpp"
-#include "../../queue/vec/queuevec.hpp"
-#include "../../queue/lst/queuelst.hpp"
+// #include "../../zlasdtest/queue/queue.hpp"
+// #include "../../queue/vec/queuevec.hpp"
+// #include "../../queue/lst/queuelst.hpp"
 
 #include "../../zlasdtest/binarytree/binarytree.hpp"
 #include "../../zlasdtest/iterator/iterator.hpp"
@@ -249,6 +249,8 @@ void myTestBTint(uint & testnum, uint & testerr) {
 
     EqualBT<int>(loctestnum, loctesterr, btv_many, btl_empty);
 
+    /* ************************************************************************************************* */
+
   } catch (exception& exc) {
     cout << "Caught exception: " << exc.what() << endl;
     loctestnum++;
@@ -454,7 +456,53 @@ void myTestBTdouble(uint & testnum, uint & testerr) {
 
     // BinaryTree with many elements
     cout << "\n~~~ BinaryTree with many elements ~~~\n" << endl;
+    lasd::Vector<double> v2(NUM_BT);
+    for(uint i = 0; i < NUM_BT; i++) {
+      v2[i] = i;
+    }
+    lasd::List<double> l2(v2);
+    lasd::BinaryTreeVec<double> btv_many(v2);
+    lasd::BinaryTreeLnk<double> btl_many(l2);
 
+    lasd::BTBreadthMutableIterator<double> mut_it_bt_many(btv_many);
+    for(uint i = 0; i < NUM_BT; i++) {
+      GetItrValue<double>(loctestnum, loctesterr, mut_it_bt_many, true, i);
+      ++mut_it_bt_many;
+    }
+    Terminated<double>(loctestnum, loctesterr, mut_it_bt_many, true);
+    mut_it_bt_many.Reset();
+    SetItrValue<double>(loctestnum, loctesterr, mut_it_bt_many, true, 7.77);
+    Root<double>(loctestnum, loctesterr, btv_many, true, 7.77);
+
+    lasd::BTPostOrderMutableIterator<double> mut_it3_bt_many(btl_many);
+    btl_many.PostOrderMap(
+      [&loctestnum, &loctesterr, &mut_it3_bt_many](double & dat) { 
+        GetItrValue<double>(loctestnum, loctesterr, mut_it3_bt_many, true, dat);
+        ++mut_it3_bt_many;
+      }
+    );
+    Terminated<double>(loctestnum, loctesterr, mut_it3_bt_many, true);
+    mut_it3_bt_many.Reset();
+    SetItrValue<double>(loctestnum, loctesterr, mut_it3_bt_many, true, 7.77);
+    Root<double>(loctestnum, loctesterr, btl_many, false, 7.77);
+
+    lasd::BTPreOrderMutableIterator<double> mut_it2_bt_many(btv_many);
+    btv_many.PreOrderMap(
+      [&loctestnum, &loctesterr, &mut_it2_bt_many](double & dat) { 
+        GetItrValue<double>(loctestnum, loctesterr, mut_it2_bt_many, true, dat);
+        ++mut_it2_bt_many;
+      }
+    );
+
+    lasd::BTInOrderMutableIterator<double> mut_it4_bt_many(btl_many);
+    btl_many.InOrderMap(
+      [&loctestnum, &loctesterr, &mut_it4_bt_many](double & dat) { 
+        GetItrValue<double>(loctestnum, loctesterr, mut_it4_bt_many, true, dat);
+        ++mut_it4_bt_many;
+      }
+    );    
+
+    /* ************************************************************************************************* */
 
   } catch (exception& exc) {
     cout << "Caught exception: " << exc.what() << endl;
@@ -474,6 +522,56 @@ void myTestBTstring(uint & testnum, uint & testerr) {
   cout << endl << "Begin of BinaryTree<string> Test:" << endl;
 
   try {
+    // BinaryTree empty
+    cout << "\n~~~ BinaryTree empty ~~~\n" << endl;
+    lasd::BinaryTreeVec<string> btv_empty;
+    lasd::BinaryTreeLnk<string> btl_empty;
+    Root<string>(loctestnum, loctesterr, btv_empty, false, "");
+    EqualBT<string>(loctestnum, loctesterr, btv_empty, btl_empty);
+
+    /* ************************************************************************************************* */
+
+    // BinaryTree with one element
+    cout << "\n~~~ BinaryTree with one element ~~~\n" << endl;
+    lasd::Vector<string> v1(1);  v1[0] = string("Hello");
+    lasd::BinaryTreeVec<string> btv_one(v1);
+    lasd::List<string> l1;  l1.InsertAtBack(string("World"));
+    lasd::BinaryTreeLnk<string> btl_one(l1);
+    Root<string>(loctestnum, loctesterr, btv_one, true, string("Hello"));
+    NonEqualBT<string>(loctestnum, loctesterr, btv_one, btl_one);
+
+    SetElement<string>(loctestnum, loctesterr, btv_one.Root(), true, string("World"));
+    EqualBT<string>(loctestnum, loctesterr, btv_one, btl_one);
+
+    lasd::BinaryTreeVec<string> btv_one_copy(btv_one);
+    lasd::BinaryTreeLnk<string> btl_one_copy(btl_one);
+    EqualBT<string>(loctestnum, loctesterr, btl_one_copy, btv_one_copy);
+
+    lasd::BinaryTreeVec<string> btv_one_move(move(btv_one));
+    lasd::BinaryTreeLnk<string> btl_one_move(move(btl_one));
+    EqualBT<string>(loctestnum, loctesterr, btl_one_move, btv_one_move);
+
+    /* ************************************************************************************************* */
+
+    // BinaryTree with many elements
+    cout << "\n~~~ BinaryTree with many elements ~~~\n" << endl;
+    lasd::Vector<string> v2(NUM_BT);
+    for(uint i = 0; i < NUM_BT; i++) {
+      v2[i] = to_string(i);
+    }
+    lasd::List<string> l2(v2);
+    lasd::BinaryTreeVec<string> btv_many(v2);
+    lasd::BinaryTreeLnk<string> btl_many(l2);
+
+    Root<string>(loctestnum, loctesterr, btv_many, true, "0");
+    EqualBT<string>(loctestnum, loctesterr, btv_many, btl_many);
+
+    Traverse<string>(loctestnum, loctesterr, btv_many, true, &TraversePrint<string>);
+    Traverse<string>(loctestnum, loctesterr, btl_many, true, &TraversePrint<string>);
+
+    Fold(loctestnum, loctesterr, btv_many, true, &FoldStringConcatenate, string(""), string("012345678910111213141516171819"));
+    
+    /* ************************************************************************************************* */
 
   } catch (exception& exc) {
     cout << "Caught exception: " << exc.what() << endl;
@@ -488,57 +586,10 @@ void myTestBTstring(uint & testnum, uint & testerr) {
 
 /* ************************************************************************** */
 
-void myTestBinaryTree(uint & testnum, uint & testerr) {
-  uint loctestnum = 0, loctesterr = 0;
+void myTestFullExercise2A(uint & testnum, uint & testerr) {
   myTestBTint(testnum, testerr);
   myTestBTdouble(testnum, testerr);
   myTestBTstring(testnum, testerr);
-  testnum += loctestnum;
-  testerr += loctesterr;
-  cout << "BinaryTree (Error/Tests: " << loctesterr << "/" << loctestnum << ")" << endl; 
-}
-
-/* ************************************************************************** */
-
-void myTestFullExercise2A(uint & testnum, uint & testerr) {
-  myTestBinaryTree(testnum, testerr);
-  // cout << endl << "~*~#~*~ Welcome to the MY Full Test Suite for Exercise 2A ~*~#~*~ " << endl << endl;
-
-  // lasd::BinaryTreeVec<int> btv;
-  // lasd::BinaryTreeLnk<int> btl;
-
-  // lasd::BinaryTree<int> & bt = btv;
-
-  // cout << "Creating a binary tree with the following structure:" << endl;
-  // cout << "       1" << endl;
-  // cout << "      / \\" << endl;
-  // cout << "     2   3" << endl;
-  // cout << "    / \\   \\" << endl;
-  // cout << "   4   5   6" << endl;
-  // cout << "  / \\" << endl;
-  // cout << " 7   8" << endl;
-
-  // btv.Root().Element() = 1;
-  // btv.Root().LeftChild().Element() = 2;
-  // btv.Root().RightChild().Element() = 3;
-  // btv.Root().LeftChild().LeftChild().Element() = 4;
-  // btv.Root().LeftChild().RightChild().Element() = 5;
-  // btv.Root().RightChild().RightChild().Element() = 6;
-  // btv.Root().LeftChild().LeftChild().LeftChild().Element() = 7;
-  // btv.Root().LeftChild().LeftChild().RightChild().Element() = 8;
-
-  // cout << "The tree has been created." << endl;
-
-  // cout << "Testing the tree:" << endl;
-
-  // GetElement(testnum, testerr, bt.Root(), true, 1);
-  // GetElement(testnum, testerr, bt.Root().LeftChild(), true, 2);
-  // GetElement(testnum, testerr, bt.Root().RightChild(), true, 3);
-  // GetElement(testnum, testerr, bt.Root().LeftChild().LeftChild(), true, 4);
-  // GetElement(testnum, testerr, bt.Root().LeftChild().RightChild(), true, 5);
-  // GetElement(testnum, testerr, bt.Root().RightChild().RightChild(), true, 6);
-  // GetElement(testnum, testerr, bt.Root().LeftChild().LeftChild().LeftChild(), true, 7);
-  // GetElement(testnum, testerr, bt.Root
 }
 
 /* ************************************************************************** */
