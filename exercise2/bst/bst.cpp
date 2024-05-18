@@ -20,7 +20,7 @@ template <typename Data>
 BST<Data>::BST(MappableContainer<Data> && con) {
   if(con.Size() != 0) {
     con.Map(
-      [this](Data && dat) {
+      [this](Data & dat) {
         Insert(std::move(dat));
       }
     );

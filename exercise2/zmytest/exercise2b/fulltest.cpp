@@ -210,7 +210,9 @@ void myTestBSTint(uint & testnum, uint & testerr) {
 
     bst3.Clear();
 
-    v2[1] = MAX_BST+1;
+    if(v2[1] != min) { v2[1] = MAX_BST+1; }
+    else { v2[2] = MAX_BST+1; }
+
     InsertAllM<int>(loctestnum, loctesterr, bst3, true, move(v2));
     Min<int>(loctestnum, loctesterr, bst3, true, min);
     Max<int>(loctestnum, loctesterr, bst3, true, MAX_BST+1);
@@ -262,7 +264,8 @@ void myTestBSTint(uint & testnum, uint & testerr) {
     TraverseInOrder<int>(loctestnum, loctesterr, btv_l4, true, &TraversePrint<int>);
     TraverseInOrder<int>(loctestnum, loctesterr, btl_l4, true, &TraversePrint<int>);
 
-    Traverse<int>(loctestnum, loctesterr, bst_v4, true, &TraversePrint<int>);
+    TraverseInOrder<int>(loctestnum, loctesterr, bst_v4, true, &TraversePrint<int>);
+
 
     // Comparison tests
     cout << "\n~~~ BST Comparison tests ~~~\n" << endl;
@@ -277,18 +280,9 @@ void myTestBSTint(uint & testnum, uint & testerr) {
 
     EqualBST<int>(loctestnum, loctesterr, bst_v4, bst_l4);
 
-    bst_l4.Clear();
+    btv_v4.Clear(); btl_v4.Clear(); btv_l4.Clear(); btl_l4.Clear(); 
 
     /* ************************************************************************ */
-
-
-    //                                               v4[0] = 10;
-    // //                                          /              \  .
-    //                       v4[1] = 5;                                       v4[2] = 15; 
-    // //                  /           \                                    /           \  .
-    //         v4[3] = 3;                v4[4] = 7;            v4[5] = 12;                v4[6] = 17;
-    // //       /    \                   /
-    // v4[7] = 1;  v4[8] = 4;    v4[9] = 6;
 
     // Pred and Succ tests
     cout << "\n~~~ BST Predecessor and Successor tests ~~~\n" << endl;
@@ -322,7 +316,76 @@ void myTestBSTint(uint & testnum, uint & testerr) {
     Successor<int>(loctestnum, loctesterr, bst_v4, false, 19, 20);
 
     // with remove  
+    PredecessorNRemove<int>(loctestnum, loctesterr, bst_v4, true, 10, 7);
+    RemovePredecessor<int>(loctestnum, loctesterr, bst_v4, true, 10);
+    Predecessor<int>(loctestnum, loctesterr, bst_v4, true, 10, 5);
+    TraverseInOrder<int>(loctestnum, loctesterr, bst_v4, true, &TraversePrint<int>);
 
+    SuccessorNRemove<int>(loctestnum, loctesterr, bst_v4, true, 12, 15);
+    RemoveSuccessor<int>(loctestnum, loctesterr, bst_v4, true, 12);
+    Successor<int>(loctestnum, loctesterr, bst_v4, false, 12, 15);
+    TraverseInOrder<int>(loctestnum, loctesterr, bst_v4, true, &TraversePrint<int>);
+
+    Size(loctestnum, loctesterr, bst_v4, true, 6);
+
+    bst_v4 = bst_l4;
+    Size(loctestnum, loctesterr, bst_v4, true, 10);
+
+    bst_v4.Clear(); bst_l4.Clear();
+
+    /* ************************************************************************************************* */
+
+    // a degenerate BST 
+
+    cout << "\n~~~ BST degenerate tests ~~~\n" << endl;
+
+    lasd::Vector<int> v5(NUM_BST);
+    for (uint i = 0; i < NUM_BST; i++) { 
+      v5[i] = i; 
+    }
+    lasd::BinaryTreeVec<int> btv5(v5);
+    lasd::BST<int> bst5(btv5);
+    lasd::BinaryTreeLnk<int> btl5((lasd::TraversableContainer<int>&)bst5); // otherwise it would be considered as a BinaryTreeLnk (that is protected)
+
+    EqualBT<int>(loctestnum, loctesterr, btv5, btl5);
+    NonEqualBT<int>(loctestnum, loctesterr, btv5, bst5);
+    NonEqualBT<int>(loctestnum, loctesterr, bst5, btv5);
+
+    lasd::BST<int> bst5_copy(bst5);
+
+    PredecessorNRemove<int>(loctestnum, loctesterr, bst5, false, 0, -1);
+    SuccessorNRemove<int>(loctestnum, loctesterr, bst5, false, NUM_BST-1, NUM_BST);
+
+    FoldPreOrder<int, int>(loctestnum, loctesterr, bst5, true, &FoldAdd<int>, 0, NUM_BST*(NUM_BST-1)/2);
+
+    Remove<int>(loctestnum, loctesterr, bst5, true, 8);
+    FoldInOrder<int, int>(loctestnum, loctesterr, bst5, true, &FoldAdd<int>, 0, NUM_BST*(NUM_BST-1)/2 - 8);
+
+    Remove<int>(loctestnum, loctesterr, bst5, true, 10);
+    FoldPostOrder<int, int>(loctestnum, loctesterr, bst5, true, &FoldAdd<int>, 0, NUM_BST*(NUM_BST-1)/2 - 18);
+
+    Remove<int>(loctestnum, loctesterr, bst5, true, 0);
+    Root(loctestnum, loctesterr, bst5, true, 1);
+    TraverseInOrder<int>(loctestnum, loctesterr, bst5, true, &TraversePrint<int>);
+    TraverseInOrder<int>(loctestnum, loctesterr, bst5_copy, true, &TraversePrint<int>);
+    FoldBreadth<int, int>(loctestnum, loctesterr, bst5, true, &FoldAdd<int>, 0, NUM_BST*(NUM_BST-1)/2 - 18);
+
+    InsertSomeC<int>(loctestnum, loctesterr, bst5, true, v5);
+    FoldPreOrder<int, int>(loctestnum, loctesterr, bst5, true, &FoldMultiply<int>, 1, 0);
+    FoldInOrder<int, int>(loctestnum, loctesterr, bst5, true, &FoldMultiply<int>, 1, 0);
+    FoldPostOrder<int, int>(loctestnum, loctesterr, bst5, true, &FoldMultiply<int>, 1, 0);
+    FoldBreadth<int, int>(loctestnum, loctesterr, bst5, true, &FoldMultiply<int>, 1, 0);
+
+    Size(loctestnum, loctesterr, bst5, true, NUM_BST);
+    Size(loctestnum, loctesterr, bst5_copy, true, NUM_BST);
+    EqualBST<int>(loctestnum, loctesterr, bst5, bst5_copy);
+    NonEqualBT<int>(loctestnum, loctesterr, bst5, btv5);
+
+    bst5.Clear(); bst5_copy.Clear(); 
+    EqualBST<int>(loctestnum, loctesterr, bst5, bst5_copy);
+    EqualBT<int>(loctestnum, loctesterr, bst5, bst5_copy);
+    
+    btv5.Clear(); btl5.Clear();
 
     /* ************************************************************************************************* */
 
@@ -339,11 +402,117 @@ void myTestBSTint(uint & testnum, uint & testerr) {
 
 /* ************************************************************************** */
 
+template <typename Data>
+void myTestiterator(lasd::ForwardIterator<Data> & it, uint & testnum, uint & testerr,lasd::Vector<Data> vec) {
+  for(uint i = 0; vec.Size() && !it.Terminated(); i++) {
+    GetItrValue<Data>(testnum, testerr, it, true, vec[i]);
+    ++it;
+  }
+}
+
 void myTestBSTdouble(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of BST<double> Test:" << endl;
   try {
+    // trees with many (decided) elements
+    cout << "\n~~~ BST and iterators tests ~~~\n" << endl;
+
+    lasd::Vector<double> v(11);
+                                v[0] = 10.6;
+    //                        /              \  .
+                      v[2] = 9.5;            v[1] = 15.2; 
+    //              /           \                      \  .
+        v[3] = 3.0;               v[4] = 10.1;         v[6] = 17.0;
+    //      /    \                   /                      \   .
+      v[7] = 1.12; v[5] = 4.8;  v[8] = 9.6;              v[9] = 25.77;
+    //                                                          \  .
+                                                              v[10] = 30.0;
+
+    lasd::Vector<double> v_breadth(11);
+    v_breadth[0] = 10.6; 
+    v_breadth[1] = 9.5; v_breadth[2] = 15.2; 
+    v_breadth[3] = 3.0; v_breadth[4] = 10.1; v_breadth[5] = 17.0; 
+    v_breadth[6] = 1.12; v_breadth[7] = 4.8; v_breadth[8] = 9.6; v_breadth[9] = 25.77; 
+    v_breadth[10] = 30.0;
+
+    lasd::Vector<double> v_pre(11);
+    v_pre[0] = 10.6;
+    v_pre[1] = 9.5; v_pre[2] = 3.0; v_pre[3] = 1.12; v_pre[4] = 4.8; v_pre[5] = 10.1; v_pre[6] = 9.6; 
+    v_pre[7] = 15.2; v_pre[8] = 17.0; v_pre[9] = 25.77; v_pre[10] = 30.0;
+
+    lasd::Vector<double> v_in(11);
+    v_in[0] = 1.12; v_in[1] = 3.0; v_in[2] = 4.8; v_in[3] = 9.5; v_in[4] = 9.6; v_in[5] = 10.1;
+    v_in[6] = 10.6; 
+    v_in[7] = 15.2; v_in[8] = 17.0; v_in[9] = 25.77; v_in[10] = 30.0;
+
+    lasd::Vector<double> v_post(11);
+    v_post[0] = 1.12; v_post[1] = 4.8; v_post[2] = 3.0; v_post[3] = 9.6; v_post[4] = 10.1; v_post[5] = 9.5;
+    v_post[6] = 30.0; v_post[7] = 25.77; v_post[8] = 17.0; v_post[9] = 15.2; 
+    v_post[10] = 10.6;
+
     lasd::BST<double> bst;
+    InsertAllC<double>(loctestnum, loctesterr, bst, true, v);
+
+    lasd::BST<double> bst_copy(bst);
+    lasd::BST<double> bst_move(move(bst_copy));
+
+    SuccessorNRemove<double>(loctestnum, loctesterr, bst, true, 10.5, 10.6); 
+    Root(loctestnum, loctesterr, bst, true, 15.2);
+
+    PredecessorNRemove<double>(loctestnum, loctesterr, bst, true, 15.2, 10.1);
+    InsertSomeC<double>(loctestnum, loctesterr, bst, true, v);
+    TraversePreOrder<double>(loctestnum, loctesterr, bst, true, &TraversePrint<double>);
+
+    Root(loctestnum, loctesterr, bst, true, 15.2);
+    TraverseInOrder<double>(loctestnum, loctesterr, bst, true, &TraversePrint<double>);
+
+    bst = bst_move;
+
+    // iterators
+    lasd::BTPreOrderIterator<double> it_pre(bst);
+    Terminated<double>(loctestnum, loctesterr, it_pre, false);
+    myTestiterator<double>(it_pre, loctestnum, loctesterr, v_pre);
+    Terminated<double>(loctestnum, loctesterr, it_pre, true);
+    it_pre.Reset();
+    myTestiterator<double>(it_pre, loctestnum, loctesterr, v_pre);
+
+    lasd::BTInOrderIterator<double> it_in(bst);
+    Terminated<double>(loctestnum, loctesterr, it_in, false);
+    myTestiterator<double>(it_in, loctestnum, loctesterr, v_in);
+    Terminated<double>(loctestnum, loctesterr, it_in, true);
+    it_in.Reset();
+    myTestiterator<double>(it_in, loctestnum, loctesterr, v_in);
+
+    lasd::BTPostOrderIterator<double> it_post(bst);
+    Terminated<double>(loctestnum, loctesterr, it_post, false);
+    myTestiterator<double>(it_post, loctestnum, loctesterr, v_post);
+    Terminated<double>(loctestnum, loctesterr, it_post, true);
+    it_post.Reset();
+    myTestiterator<double>(it_post, loctestnum, loctesterr, v_post);
+
+    lasd::BTBreadthIterator<double> it_breadth(bst);
+    Terminated<double>(loctestnum, loctesterr, it_breadth, false);
+    myTestiterator<double>(it_breadth, loctestnum, loctesterr, v_breadth);
+    Terminated<double>(loctestnum, loctesterr, it_breadth, true);
+    it_breadth.Reset();
+    myTestiterator<double>(it_breadth, loctestnum, loctesterr, v_breadth);
+
+    bst.Clear();
+    Empty(loctestnum, loctesterr, bst, true);
+
+    lasd::BTPreOrderIterator<double> it_pre2(bst);
+    Terminated<double>(loctestnum, loctesterr, it_pre2, true);
+
+    lasd::BTInOrderIterator<double> it_in2(bst);
+    Terminated<double>(loctestnum, loctesterr, it_in2, true);
+
+    lasd::BTPostOrderIterator<double> it_post2(bst);
+    Terminated<double>(loctestnum, loctesterr, it_post2, true);
+
+    lasd::BTBreadthIterator<double> it_breadth2(bst);
+    Terminated<double>(loctestnum, loctesterr, it_breadth2, true);
+
+    /* ************************************************************************************************* */
 
   } catch (exception & exc) {
     cout << "Caught exception: " << exc.what() << endl;
@@ -362,7 +531,49 @@ void myTestBSTstring(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of BST<string> Test:" << endl;
   try {
-    lasd::BST<string> bst;
+    lasd::List<string> l;
+    InsertAtBack(loctestnum, loctesterr, l, true, string("A"));
+    InsertAtBack(loctestnum, loctesterr, l, true, string("B"));
+    InsertAtFront(loctestnum, loctesterr, l, true, string("C"));
+    InsertAtFront(loctestnum, loctesterr, l, true, string("D"));
+    InsertAtBack(loctestnum, loctesterr, l, true, string("E"));
+    InsertAtBack(loctestnum, loctesterr, l, true, string("F"));
+
+    lasd::Vector<string> v(l);
+    lasd::BST<string> bst(move(v));
+    lasd::BST<string> bst2(move(l));
+
+    EqualBT<string>(loctestnum, loctesterr, bst, bst2);
+    EqualBST<string>(loctestnum, loctesterr, bst, bst2);
+    
+    TraverseInOrder<string>(loctestnum, loctesterr, bst, true, &TraversePrint<string>);
+
+    RemovePredecessor<string>(loctestnum, loctesterr, bst, true, string("E"));
+    InsertC<string>(loctestnum, loctesterr, bst, true, string("D"));
+
+    NonEqualBT<string>(loctestnum, loctesterr, bst, bst2);
+    EqualBST<string>(loctestnum, loctesterr, bst, bst2);
+
+    lasd::BTInOrderIterator<string> it_in(bst);
+    Terminated<string>(loctestnum, loctesterr, it_in, false);
+    GetItrValue<string>(loctestnum, loctesterr, it_in, true, string("A"));
+    ++it_in;
+    GetItrValue<string>(loctestnum, loctesterr, it_in, true, string("B"));
+    ++it_in;
+    GetItrValue<string>(loctestnum, loctesterr, it_in, true, string("C"));
+    ++it_in;
+    GetItrValue<string>(loctestnum, loctesterr, it_in, true, string("D"));
+    ++it_in;
+    GetItrValue<string>(loctestnum, loctesterr, it_in, true, string("E"));
+    ++it_in;
+    GetItrValue<string>(loctestnum, loctesterr, it_in, true, string("F"));
+    Terminated<string>(loctestnum, loctesterr, it_in, false);
+    ++it_in;
+    Terminated<string>(loctestnum, loctesterr, it_in, true);
+
+    FoldInOrder<string, string>(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("ABCDEF"));
+
+    /* ************************************************************************************************* */
 
   } catch (exception & exc) {
     cout << "Caught exception: " << exc.what() << endl;
@@ -380,8 +591,8 @@ void myTestBSTstring(uint & testnum, uint & testerr) {
 void myTestFullExercise2B(uint & testnum, uint & testerr) {
   cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
   myTestBSTint(testnum, testerr);
-  // myTestBSTdouble(testnum, testerr);
-  // myTestBSTstring(testnum, testerr);
+  myTestBSTdouble(testnum, testerr);
+  myTestBSTstring(testnum, testerr);
 }
 
 /* ************************************************************************** */
