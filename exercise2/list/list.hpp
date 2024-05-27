@@ -24,7 +24,6 @@ private:
 protected:
 
   using Container::size;
-  using TestableContainer<Data>::Exists;
 
   struct Node {
 
@@ -131,6 +130,12 @@ public:
   bool Insert(const Data &) override;
   bool Insert(Data &&) override;
   bool Remove(const Data &) override;
+
+  /* ************************************************************************ */
+
+  // Specific member functions (inherited from TestableContainer)
+
+  using TestableContainer<Data>::Exists;
 
   /* ************************************************************************ */
 

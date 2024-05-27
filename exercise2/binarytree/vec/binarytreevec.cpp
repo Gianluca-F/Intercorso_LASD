@@ -92,7 +92,7 @@ MutableBinaryTree<Data>::MutableNode & BinaryTreeVec<Data>::NodeVec::RightChild(
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const TraversableContainer<Data> & con) {
   size = con.Size();
-  tree = Vector<NodeVec*>(size);
+  Vector<NodeVec *> tree{size};
   ulong i = 0;
   con.Traverse([this, &i](const Data & data) {
     tree[i] = new NodeVec(data, i, this);
@@ -103,9 +103,9 @@ BinaryTreeVec<Data>::BinaryTreeVec(const TraversableContainer<Data> & con) {
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(MappableContainer<Data> && con) {
   size = con.Size();
-  tree = Vector<NodeVec*>(size);
+  Vector<NodeVec *> tree{size};
   ulong i = 0;
-  con.Map([this, &i](Data && data) {
+  con.Map([this, &i](Data & data) {
     tree[i] = new NodeVec(std::move(data), i, this);
     ++i;
   });

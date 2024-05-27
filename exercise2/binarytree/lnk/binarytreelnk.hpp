@@ -29,11 +29,7 @@ public:
 protected:
 
   struct NodeLnk : virtual public MutableNode { 
-
-    friend class BinaryTreeLnk<Data>;
-
-    /* ************************************************************************ */
-
+    
     NodeLnk * left = nullptr;
     NodeLnk * right = nullptr;
     Data element;
