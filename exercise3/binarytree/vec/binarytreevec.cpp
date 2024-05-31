@@ -7,7 +7,6 @@ namespace lasd {
 
 template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(const Data & data, const ulong ind, BinaryTreeVec<Data> * tree) {
-  exists = true;
   element = data;
   index = ind;
   treeVec = tree;
@@ -15,58 +14,9 @@ BinaryTreeVec<Data>::NodeVec::NodeVec(const Data & data, const ulong ind, Binary
 
 template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(Data && data, const ulong ind, BinaryTreeVec<Data> * tree) {
-  exists = true;
   element = std::move(data);
   index = ind;
   treeVec = tree;
-}
-
-/* ************************************************************************** */
-
-// Copy constructor (NodeVec)
-template <typename Data>
-BinaryTreeVec<Data>::NodeVec::NodeVec(const NodeVec & node) {
-  exists = node.exists;
-  element = node.element;
-  index = node.index;
-  treeVec = node.treeVec;
-}
-
-// Move constructor (NodeVec)
-template <typename Data>
-BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec && node) noexcept {
-  std::swap(exists, node.exists);  
-  std::swap(element, node.element);
-  std::swap(index, node.index);
-  std::swap(treeVec, node.treeVec);
-}
-
-/* ************************************************************************** */
-
-// Destructor (NodeVec)
-template <typename Data>
-BinaryTreeVec<Data>::NodeVec::~NodeVec() {
-  exists = false;
-}
-
-/* ************************************************************************** */
-
-// Copy assignment (NodeVec)
-template <typename Data>
-typename BinaryTreeVec<Data>::NodeVec & BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec & node) {
-  if(this != &node) {
-    exists = node.exists;    
-    element = node.element;
-  }
-  return *this;
-}
-
-// Move assignment (NodeVec)
-template <typename Data>
-typename BinaryTreeVec<Data>::NodeVec & BinaryTreeVec<Data>::NodeVec::operator=(NodeVec && node) noexcept {
-  std::swap(exists, node.exists);
-  std::swap(element, node.element);
-  return *this;
 }
 
 /* ************************************************************************** */
@@ -75,7 +25,7 @@ typename BinaryTreeVec<Data>::NodeVec & BinaryTreeVec<Data>::NodeVec::operator=(
 
 template <typename Data>
 inline bool BinaryTreeVec<Data>::NodeVec::operator==(const NodeVec & node) const noexcept {
-  return ((exists == node.exists) && (BinaryTree<Data>::Node::operator==(node))); 
+  return BinaryTree<Data>::Node::operator==(node); 
 }
 
 template <typename Data>
@@ -94,12 +44,12 @@ inline const Data & BinaryTreeVec<Data>::NodeVec::Element() const noexcept {
 
 template <typename Data>
 inline bool BinaryTreeVec<Data>::NodeVec::HasLeftChild() const noexcept {
-  return ((2*index+1 < treeVec->size) && (treeVec->tree[2*index+1])->exists);
+  return 2*index+1 < treeVec->size;
 }
 
 template <typename Data>
 inline bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept {
-  return ((2*index+2 < treeVec->size) && (treeVec->tree[2*index+2])->exists);
+  return 2*index+2 < treeVec->size;
 }
 
 template <typename Data>
@@ -142,22 +92,22 @@ MutableBinaryTree<Data>::MutableNode & BinaryTreeVec<Data>::NodeVec::RightChild(
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const TraversableContainer<Data> & con) {
   size = con.Size();
-  tree = Vector<NodeVec*>(size);
+  tree.Resize(size);
   ulong i = 0;
   con.Traverse([this, &i](const Data & data) {
     tree[i] = new NodeVec(data, i, this);
-    i++;
+    ++i;
   });
 }
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(MappableContainer<Data> && con) {
   size = con.Size();
-  tree = Vector<NodeVec*>(size);
+  tree.Resize(size);
   ulong i = 0;
-  con.Map([this, &i](Data && data) {
+  con.Map([this, &i](Data & data) {
     tree[i] = new NodeVec(std::move(data), i, this);
-    i++;
+    ++i;
   });
 }
 
@@ -168,7 +118,7 @@ template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> & bt) {
   size = bt.size;
   tree = Vector<NodeVec*>(size);
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     tree[i] = new NodeVec((bt.tree[i])->element, i, this);
   }
 }
@@ -189,7 +139,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> && bt) noexcept {
 
 template <typename Data>
 BinaryTreeVec<Data>::~BinaryTreeVec() {
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     delete tree[i];
   }
 }
@@ -203,7 +153,7 @@ BinaryTreeVec<Data> & BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data> &
     Clear();
     size = bt.size;
     tree = Vector<NodeVec*>(size);
-    for(ulong i = 0; i < size; i++) {
+    for(ulong i = 0; i < size; ++i) {
       tree[i] = new NodeVec((bt.tree[i])->element, i, this);
     }
   }
@@ -215,7 +165,6 @@ template <typename Data>
 BinaryTreeVec<Data> & BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data> && bt) noexcept {
   std::swap(size, bt.size);
   std::swap(tree, bt.tree);
-
   for(ulong i = 0; i < size; ++i) {
     tree[i]->treeVec = this;
   }
@@ -229,7 +178,7 @@ BinaryTreeVec<Data> & BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data> && bt) 
 template <typename Data>
 bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec<Data> & bt) const noexcept {
   if(size != bt.size) { return false; }
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     if(*tree[i] != *bt.tree[i]) { return false; }
   }
   return true;
@@ -266,7 +215,7 @@ MutableBinaryTree<Data>::MutableNode & BinaryTreeVec<Data>::Root() {
 
 template <typename Data>
 void BinaryTreeVec<Data>::Clear() {
-  for(ulong i = 0; i < size; i++) {
+  for(ulong i = 0; i < size; ++i) {
     delete tree[i];
     tree[i] = nullptr;
   }
@@ -280,10 +229,8 @@ void BinaryTreeVec<Data>::Clear() {
 
 template <typename Data>
 void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun fun) const {
-  for(ulong i = 0; i < size; i++) {
-    if(tree[i]->exists) {
-      fun(tree[i]->element);
-    }
+  for(ulong i = 0; i < size; ++i) {
+    fun(tree[i]->element);
   }
 }
 
@@ -293,10 +240,8 @@ void BinaryTreeVec<Data>::BreadthTraverse(TraverseFun fun) const {
 
 template <typename Data>
 void BinaryTreeVec<Data>::BreadthMap(MapFun fun) {
-  for(ulong i = 0; i < size; i++) {
-    if(tree[i]->exists) {
-      fun(tree[i]->element);
-    }
+  for(ulong i = 0; i < size; ++i) {
+    fun(tree[i]->element);
   }
 }
 

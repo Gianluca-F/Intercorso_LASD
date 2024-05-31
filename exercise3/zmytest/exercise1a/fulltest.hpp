@@ -1,6 +1,6 @@
 
-#ifndef MYTEST_HPP
-#define MYTEST_HPP
+#ifndef EXC1AMYTEST_HPP
+#define EXC1AMYTEST_HPP
 
 /* ************************************************************************** */
 
@@ -8,15 +8,7 @@ namespace mytest {
 
 /* ************************************************************************** */
 
-void myTestExc1();
-void myTestExc2();
-void myTestExc3();
-
-void myTestExc1(unsigned int &, unsigned int &);
-void myTestExc2(unsigned int &, unsigned int &);
-void myTestExc3(unsigned int &, unsigned int &);
-
-void myFullTest();
+void myTestFullExercise1A(unsigned int &, unsigned int &);
 
 /* ************************************************************************** */
 

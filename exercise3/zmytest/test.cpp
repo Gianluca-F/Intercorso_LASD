@@ -1,27 +1,146 @@
 
-#include "./exercise/fulltest.hpp"
+#include "./exercise1a/fulltest.hpp"
+#include "./exercise1b/fulltest.hpp"
+#include "./exercise2a/fulltest.hpp"
+#include "./exercise2b/fulltest.hpp"
+#include "./exercise3/fulltest.hpp"
 
 /* ************************************************************************** */
 
 #include <iostream>
 
+/* ************************************************************************** */
+
 using namespace std;
 
 /* ************************************************************************** */
 
-void mytest() {
-  cout << endl << "~*~#~*~ Welcome to the MY Test Suite ~*~#~*~ " << endl;
+namespace mytest {
+
+/* ************************************************************************** */
+
+void myTestExc1() {
+  cout << endl << "~*~#~*~ Welcome to the MY Test Ex1 Suite ~*~#~*~ " << endl;
   
   uint loctestnum, loctesterr;
-  uint ftestnum = 0, ftesterr = 0;
+  uint testnum = 0, testerr = 0;
 
   loctestnum = 0; loctesterr = 0;
-  testFullExercise(loctestnum, loctesterr);
-  ftestnum += loctestnum; ftesterr += loctesterr;
+  myTestFullExercise1A(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
 
-  cout << endl << "Exercise (Full Test) (Errors/Tests: " << ftesterr << "/" << ftestnum << ")" << endl;
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise1B(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  cout << endl << "Exercise 1 (My Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
+  cout << endl << "~*~#~*~ End of the MY Test Ex1 Suite ~*~#~*~ " << endl << endl;
+}
+
+void myTestExc1(uint & testnum, uint & testerr) {
+  cout << endl << "~~~~~~~~~~~~~~~ Start of TestExc1 ~~~~~~~~~~~~~~~" << endl;
+
+  uint loctestnum, loctesterr;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise1A(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise1B(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  cout << endl << "~~~~~~~~~~~~~~~ End of TestExc1 ~~~~~~~~~~~~~~~" << endl;
+}
+
+/* ************************************************************************** */
+
+void myTestExc2() {
+  cout << endl << "~*~#~*~ Welcome to the MY Test Ex2 Suite ~*~#~*~ " << endl;
+  
+  uint loctestnum, loctesterr;
+  uint testnum = 0, testerr = 0;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise2A(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise2B(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  cout << endl << "Exercise 2 (My Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
+  cout << endl << "~*~#~*~ End of the MY Test Ex2 Suite ~*~#~*~ " << endl << endl;
+}
+
+void myTestExc2(uint & testnum, uint & testerr) {
+  cout << endl << "~~~~~~~~~~~~~~~ Start of TestExc2 ~~~~~~~~~~~~~~~" << endl;
+
+  uint loctestnum, loctesterr;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise2A(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise2B(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  cout << endl << "~~~~~~~~~~~~~~~ End of TestExc2 ~~~~~~~~~~~~~~~" << endl;
+}
+
+/* ************************************************************************** */
+
+void myTestExc3() {
+  cout << endl << "~*~#~*~ Welcome to the MY Test Ex3 Suite ~*~#~*~ " << endl;
+  
+  uint loctestnum, loctesterr;
+  uint testnum = 0, testerr = 0;
+
+  loctestnum = 0; loctesterr = 0;
+  myTestFullExercise3(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  cout << endl << "Exercise 3 (My Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
+  cout << endl << "~*~#~*~ End of the MY Test Ex3 Suite ~*~#~*~ " << endl << endl;
+}
+
+void myTestExc3(uint & testnum, uint & testerr) {
+  cout << endl << "~~~~~~~~~~~~~~~ Start of TestExc3 ~~~~~~~~~~~~~~~" << endl;
+
+  uint loctestnum = 0, loctesterr = 0;
+
+  myTestFullExercise3(loctestnum, loctesterr);
+  testnum += loctestnum; testerr += loctesterr;
+
+  cout << endl << "~~~~~~~~~~~~~~~ End of TestExc3 ~~~~~~~~~~~~~~~" << endl;
+}
+
+/* ************************************************************************** */
+
+void myFullTest() {
+  cout << endl << "~*~#~*~ Welcome to the MY Full Test Suite ~*~#~*~ " << endl << endl;
+
+  uint testnumExc1 = 0, testerrExc1 = 0;
+  uint testnumExc2 = 0, testerrExc2 = 0;
+  uint testnumExc3 = 0, testerrExc3 = 0;
+
+  myTestExc1(testnumExc1, testerrExc1);
+  myTestExc2(testnumExc2, testerrExc2);
+  myTestExc3(testnumExc3, testerrExc3);
+
+  cout << endl << "~*~#~*~ End of the MY Full Test Suite ~*~#~*~ " << endl;
+
+  cout << endl;
+  cout << endl << "****** Recap of the MY Full Test Suite ******" << endl;
+  cout << endl << "* Exercise 1 (My Test) (Errors/Tests: " << testerrExc1 << "/" << testnumExc1 << ") *" << endl;
+  cout << endl << "* Exercise 2 (My Test) (Errors/Tests: " << testerrExc2 << "/" << testnumExc2 << ") *" << endl;
+  cout << endl << "* Exercise 3 (My Test) (Errors/Tests: " << testerrExc3 << "/" << testnumExc3 << ") *" << endl;
+  cout << endl << "*********************************************" << endl;
+
   cout << endl << "Goodbye!" << endl;
 }
 
 /* ************************************************************************** */
 
+}

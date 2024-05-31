@@ -31,13 +31,7 @@ protected:
 
   struct NodeVec : virtual public MutableNode {
 
-    friend class BinaryTreeVec<Data>;
-
-    /* ************************************************************************ */
-
-    bool exists = false;
     Data element;
-
     ulong index;
     BinaryTreeVec<Data> * treeVec = nullptr;
 
@@ -50,24 +44,8 @@ protected:
 
     /* ************************************************************************ */
 
-    // Copy constructor
-    NodeVec(const NodeVec &);
-
-    // Move constructor
-    NodeVec(NodeVec &&) noexcept;
-
-    /* ************************************************************************ */
-
     // Destructor
-    virtual ~NodeVec();
-
-    /* ************************************************************************ */
-
-    // Copy assignment
-    NodeVec & operator=(const NodeVec &);
-
-    // Move assignment
-    NodeVec & operator=(NodeVec &&) noexcept;
+    virtual ~NodeVec() = default;
 
     /* ************************************************************************ */
 
@@ -173,10 +151,6 @@ public:
   using typename MappableContainer<Data>::MapFun;
 
   void BreadthMap(MapFun) override;
-  
-protected:
-
-  // Auxiliary functions, if necessary!
 
 };
 

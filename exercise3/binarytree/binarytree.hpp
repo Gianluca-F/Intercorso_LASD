@@ -179,9 +179,12 @@ public:
 
     // Specific member functions
 
+    using BinaryTree<Data>::Node::Element;
     virtual inline Data & Element() noexcept = 0; // Mutable access to the element
 
+    using BinaryTree<Data>::Node::LeftChild;
     virtual MutableNode & LeftChild() = 0; // (concrete function must throw std::out_of_range when not existent)
+    using BinaryTree<Data>::Node::RightChild;
     virtual MutableNode & RightChild() = 0; // (concrete function must throw std::out_of_range when not existent)
 
   };
@@ -203,6 +206,7 @@ public:
 
   // Specific member functions
 
+  using BinaryTree<Data>::Root;
   virtual MutableNode & Root() = 0; // (concrete function must throw std::length_error when empty)
 
   /* ************************************************************************ */
@@ -372,8 +376,6 @@ public:
 
   // Specific member functions (inherited from MutableIterator)
 
-  using BTPreOrderIterator<Data>::Terminated;
-
   Data & operator*() override; // (throw std::out_of_range when terminated)
 
 };
@@ -508,8 +510,6 @@ public:
 
   // Specific member functions (inherited from MutableIterator)
 
-  using BTPostOrderIterator<Data>::Terminated;
-  
   Data & operator*() override; // (throw std::out_of_range when terminated)
 
 };
@@ -644,8 +644,6 @@ public:
 
   // Specific member functions (inherited from MutableIterator)
   
-  using BTInOrderIterator<Data>::Terminated;
-
   Data & operator*() override; // (throw std::out_of_range when terminated)
 
 };
@@ -773,8 +771,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions (inherited from MutableIterator)
-
-  using BTBreadthIterator<Data>::Terminated;
 
   Data & operator*() override; // (throw std::out_of_range when terminated)
 

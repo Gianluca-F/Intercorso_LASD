@@ -12,6 +12,12 @@
 
 /* ************************************************************************** */
 
+#ifndef MIN_TABLESIZE
+#define MIN_TABLESIZE 128
+#endif
+
+/* ************************************************************************** */
+
 namespace lasd {
 
 /* ************************************************************************** */
@@ -20,52 +26,74 @@ template <typename Data>
 class Hashable {
 
 public:
-
-  // type operator()(argument) specifiers; // (concrete function should not throw exceptions)
+  
+  ulong operator()(const Data &) const noexcept = 0;
 
 };
 
 /* ************************************************************************** */
 
 template <typename Data>
-class HashTable {
-                  // Must extend ResizableContainer,
-                  //             DictionaryContainer<Data>
+class HashTable : virtual public ResizableContainer, 
+                  virtual public DictionaryContainer<Data> {
 
 private:
 
-  // ...
-
 protected:
 
-  // using DictionaryContainer<Data>::???;
+  using DictionaryContainer<Data>::size;
 
-  // ...
+  ulong acoeff = 1;
+  ulong bcoeff = 0;
+  static const ulong prime = 4294967291; // Largest prime number that fits in 32 bits (2^32 - 5) (otherwise 1000000016531)
 
-public:
+  std::default_random_engine gen = std::default_random_engine(std::random_device {}());
+  std::uniform_int_distribution<ulong> dista = std::uniform_int_distribution<ulong>(1, prime - 1);
+  std::uniform_int_distribution<ulong> distb = std::uniform_int_distribution<ulong>(0, prime - 1);
 
-  // Destructor
-  // ~HashTable() specifiers
+  static const Hashable<Data> enchash;
+
+  ulong tablesize = MIN_TABLESIZE;
+
+  /* ************************************************************************ */
+
+  // Default constructor
+  HashTable();
+
+  /* ************************************************************************ */
+
+  // Copy constructor
+  HashTable(const HashTable<Data> &);
+
+  // Move constructor
+  HashTable(HashTable<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
+  HashTable & operator=(const HashTable<Data> &) noexcept;
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
+  HashTable & operator=(HashTable<Data> &&) noexcept;
+
+public:
+
+  // Destructor
+  virtual ~HashTable() = default;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract hashtable is possible but not required.
-  // type operator!=(argument) specifiers; // Comparison of abstract hashtable is possible but not required.
+  bool operator==(const HashTable &) const noexcept = delete;
+  bool operator!=(const HashTable &) const noexcept = delete;
 
 protected:
 
   // Auxiliary member functions
 
-  // type HashKey(argument) specifiers;
+  virtual inline ulong HashKey(const Data &) const noexcept;
+
+  virtual inline ulong HashKey(ulong) const noexcept;
 
 };
 

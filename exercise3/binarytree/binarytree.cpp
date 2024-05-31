@@ -8,9 +8,9 @@ namespace lasd {
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node & node) const noexcept {
   if(Element() != node.Element()) { return false; }
-  if(HasLeftChild() != node.HasLeftChild())  { return false; }
+  if(HasLeftChild() != node.HasLeftChild())   { return false; }
   if(HasRightChild() != node.HasRightChild()) { return false; }
-  if(HasLeftChild() && LeftChild().operator!=(node.LeftChild()))   { return false; }
+  if(HasLeftChild() && LeftChild().operator!=(node.LeftChild()))    { return false; }
   if(HasRightChild() && RightChild().operator!=(node.RightChild())) { return false; }
   
   return true;
@@ -52,7 +52,7 @@ inline bool BinaryTree<Data>::operator!=(const BinaryTree<Data> & tree) const no
 
 template <typename Data>
 inline void BinaryTree<Data>::Traverse(TraverseFun fun) const {
-  if(size) { BreadthTraverse(fun, Root()); }
+  BreadthTraverse(fun);
 }
 
 /* ************************************************************************** */
@@ -135,8 +135,9 @@ void BinaryTree<Data>::BreadthTraverse(TraverseFun fun, const Node & node) const
 
 template <typename Data>
 inline void MutableBinaryTree<Data>::Map(MapFun fun) {
-  if(size) { BreadthMap(fun, Root()); }
+  BreadthMap(fun);
 }
+
 /* ************************************************************************** */
 
 // Specific member functions (MutableBinaryTree) (inherited from PreOrderMappableContainer)
@@ -322,8 +323,7 @@ void BTPreOrderIterator<Data>::Reset() noexcept {
 
 template <typename Data>
 Data & BTPreOrderMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(stack.Top()->Element());
+  return const_cast<Data &>(BTPreOrderIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
@@ -460,8 +460,7 @@ void BTPostOrderIterator<Data>::PushLeftLeaf(const typename BinaryTree<Data>::No
 
 template <typename Data>
 Data & BTPostOrderMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(stack.Top()->Element());
+  return const_cast<Data &>(BTPostOrderIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
@@ -587,8 +586,7 @@ void BTInOrderIterator<Data>::PushLeftNode(const typename BinaryTree<Data>::Node
 
 template <typename Data>
 Data & BTInOrderMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(stack.Top()->Element());
+  return const_cast<Data &>(BTInOrderIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
@@ -702,8 +700,7 @@ void BTBreadthIterator<Data>::Reset() noexcept {
 
 template <typename Data>
 Data & BTBreadthMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(queue.Head()->Element());
+  return const_cast<Data &>(BTBreadthIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
