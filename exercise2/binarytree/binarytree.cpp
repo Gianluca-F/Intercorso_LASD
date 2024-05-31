@@ -323,8 +323,7 @@ void BTPreOrderIterator<Data>::Reset() noexcept {
 
 template <typename Data>
 Data & BTPreOrderMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(stack.Top()->Element());
+  return const_cast<Data &>(BTPreOrderIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
@@ -461,8 +460,7 @@ void BTPostOrderIterator<Data>::PushLeftLeaf(const typename BinaryTree<Data>::No
 
 template <typename Data>
 Data & BTPostOrderMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(stack.Top()->Element());
+  return const_cast<Data &>(BTPostOrderIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
@@ -588,8 +586,7 @@ void BTInOrderIterator<Data>::PushLeftNode(const typename BinaryTree<Data>::Node
 
 template <typename Data>
 Data & BTInOrderMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(stack.Top()->Element());
+  return const_cast<Data &>(BTInOrderIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
@@ -703,8 +700,7 @@ void BTBreadthIterator<Data>::Reset() noexcept {
 
 template <typename Data>
 Data & BTBreadthMutableIterator<Data>::operator*() {
-  if(Terminated()) { throw std::out_of_range("Iterator out of range"); }
-  return const_cast<Data &>(queue.Head()->Element());
+  return const_cast<Data &>(BTBreadthIterator<Data>::operator*());
 }
 
 /* ************************************************************************** */
