@@ -7,14 +7,12 @@ namespace lasd {
 
 template <typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(const ulong size) {
-  tablesize = size;
+  while (tablesize < size) { tablesize *= 2; }
   table.Resize(tablesize);
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const TraversableContainer<Data> & con) {
-  tablesize = con.Size();
-  table.Resize(tablesize);
+HashTableClsAdr<Data>::HashTableClsAdr(const TraversableContainer<Data> & con) : HashTableClsAdr(con.Size()) {
   con.Traverse(
     [this](const Data & dat) {
       Insert(dat);
@@ -23,9 +21,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const TraversableContainer<Data> & con) {
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, const TraversableContainer<Data> & con) {
-  tablesize = size;
-  table.Resize(tablesize);
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, const TraversableContainer<Data> & con) : HashTableClsAdr(size) {
   con.Traverse(
     [this](const Data & dat) {
       Insert(dat);
@@ -34,9 +30,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, const TraversableContai
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(MappableContainer<Data> && con) {
-  tablesize = con.Size();
-  table.Resize(tablesize);
+HashTableClsAdr<Data>::HashTableClsAdr(MappableContainer<Data> && con) : HashTableClsAdr(con.Size()) {
   con.Map(
     [this](Data & dat) {
       Insert(std::move(dat));
@@ -45,9 +39,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(MappableContainer<Data> && con) {
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, MappableContainer<Data> && con) {
-  tablesize = size;
-  table.Resize(tablesize);
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, MappableContainer<Data> && con) : HashTableClsAdr(size) {
   con.Map(
     [this](Data & dat) {
       Insert(std::move(dat));
@@ -166,7 +158,7 @@ void HashTableClsAdr<Data>::Resize(const ulong INtablesize) {
   }
 
   HashTableClsAdr<Data> newht(newtablesize);
-  for(ulong i = 0; i < tablesize; i++) {
+  for(ulong i = 0; i < tablesize; ++i) {
     table[i].Traverse(
       [&newht](const Data & dat) {
         newht.Insert(dat);
@@ -182,12 +174,8 @@ void HashTableClsAdr<Data>::Resize(const ulong INtablesize) {
 
 template <typename Data>
 void HashTableClsAdr<Data>::Clear() {
-  for(ulong i = 0; i < tablesize; i++) {
-    table[i].Clear();
-  }
-  tablesize = MIN_TABLESIZE;
-  size = 0;
-  table.Resize(tablesize);
+  HashTableClsAdr<Data> newht(MIN_TABLESIZE);
+  std::swap(*this, newht);
 }
 
 /* ************************************************************************** */

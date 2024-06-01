@@ -54,8 +54,8 @@ public:
 // Default constructor (HashTable)
 template <typename Data>
 HashTable<Data>::HashTable() {
-  acoeff = dista(gen);
-  bcoeff = distb(gen);
+  acoeff = dista(gen) * 2 + 1;
+  bcoeff = distb(gen); 
 }
 
 /* ************************************************************************** */

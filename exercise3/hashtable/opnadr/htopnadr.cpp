@@ -6,12 +6,8 @@ namespace lasd {
 // Specific constructors
 
 template <typename Data>
-HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong size) : HashTable<Data>::HashTable() {
-  ulong newtablesize = MIN_TABLESIZE;
-  while(newtablesize < size) {
-    newtablesize *= 2;
-  }
-  tablesize = newtablesize;
+HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong size) {
+  while(tablesize < size) { tablesize *= 2; }
   table.Resize(tablesize);
   states.Resize(tablesize);
 }
