@@ -51,7 +51,7 @@ protected:
   std::uniform_int_distribution<ulong> dista = std::uniform_int_distribution<ulong>(1, prime - 1);
   std::uniform_int_distribution<ulong> distb = std::uniform_int_distribution<ulong>(0, prime - 1);
 
-  static const Hashable<Data> enchash;
+  static const Hashable<Data> constexpr enchash{};
 
   ulong tablesize = MIN_TABLESIZE;
 

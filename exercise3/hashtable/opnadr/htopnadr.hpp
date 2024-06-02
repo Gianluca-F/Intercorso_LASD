@@ -75,13 +75,13 @@ public:
 
   bool Insert(const Data &) override; // Copy of the value
   bool Insert(Data &&) override; // Move of the value
-  bool Remove(const Data &) override;
+  inline bool Remove(const Data &) override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from TestableContainer)
 
-  bool Exists(const Data &) const noexcept override;
+  inline bool Exists(const Data &) const noexcept override;
 
   /* ************************************************************************ */
 
@@ -93,7 +93,7 @@ public:
 
   // Specific member functions (inherited from ClearableContainer)
 
-  void Clear() override;
+  inline void Clear() override;
 
 protected:
 
@@ -101,12 +101,12 @@ protected:
 
   inline ulong HashKey(const ulong, const ulong) const noexcept;
 
-  ulong Find(const Data &, ulong &) const noexcept;
+  ulong Find(const Data &, ulong) const noexcept;
   ulong FindEmpty(const Data &, ulong &) const noexcept; 
-  bool Remove(const Data &, ulong &) noexcept;
+  inline bool Remove(const Data &, ulong) noexcept;
 
-  void Expand();
-  void Reduce();
+  inline void Expand();
+  inline void Reduce();
 
 };
 

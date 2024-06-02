@@ -72,9 +72,9 @@ public:
 
   // Specific member functions (inherited from DictionaryContainer)
 
-  bool Insert(const Data &) override; // Copy of the value
-  bool Insert(Data &&) override; // Move of the value
-  bool Remove(const Data &) override;
+  inline bool Insert(const Data &) override; // Copy of the value
+  inline bool Insert(Data &&) override; // Move of the value
+  inline bool Remove(const Data &) override;
 
   /* ************************************************************************ */
 
@@ -92,7 +92,7 @@ public:
 
   // Specific member functions (inherited from ClearableContainer)
 
-  void Clear() override;
+  inline void Clear() override;
 
 };
 

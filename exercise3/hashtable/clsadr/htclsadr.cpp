@@ -91,7 +91,7 @@ bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr<Data> & ht) const n
 
   for(ulong i=0; i<tablesize; ++i) {
     table[i].Traverse(
-      [ht, &check](const Data & dat) {
+      [&ht, &check](const Data & dat) {
         check &= ht.Exists(dat);
       }
     );
@@ -111,7 +111,7 @@ inline bool HashTableClsAdr<Data>::operator!=(const HashTableClsAdr<Data> & ht) 
 // Specific member functions (inherited from DictionaryContainer)
 
 template <typename Data>
-bool HashTableClsAdr<Data>::Insert(const Data & dat) {
+inline bool HashTableClsAdr<Data>::Insert(const Data & dat) {
   if(Exists(dat)) { return false; }
   table[HashKey(dat)].InsertAtFront(dat);
   ++size;
@@ -119,7 +119,7 @@ bool HashTableClsAdr<Data>::Insert(const Data & dat) {
 }
 
 template <typename Data>
-bool HashTableClsAdr<Data>::Insert(Data && dat) {
+inline bool HashTableClsAdr<Data>::Insert(Data && dat) {
   if(Exists(dat)) { return false; }
   table[HashKey(dat)].InsertAtFront(std::move(dat));
   ++size;
@@ -127,7 +127,7 @@ bool HashTableClsAdr<Data>::Insert(Data && dat) {
 }
 
 template <typename Data>
-bool HashTableClsAdr<Data>::Remove(const Data & dat) {
+inline bool HashTableClsAdr<Data>::Remove(const Data & dat) {
   if(table[HashKey(dat)].Remove(dat)) {
     --size;
     return true;
@@ -149,13 +149,8 @@ inline bool HashTableClsAdr<Data>::Exists(const Data & dat) const noexcept {
 // Specific member functions (inherited from ResizableContainer)
 
 template <typename Data>
-void HashTableClsAdr<Data>::Resize(const ulong INtablesize) {
-  if(tablesize == INtablesize) { return; }
-
-  ulong newtablesize = MIN_TABLESIZE;
-  while(newtablesize < INtablesize) {
-    newtablesize *= 2;
-  }
+void HashTableClsAdr<Data>::Resize(const ulong newtablesize) {
+  if(tablesize == newtablesize) { return; }
 
   HashTableClsAdr<Data> newht(newtablesize);
   for(ulong i = 0; i < tablesize; ++i) {
@@ -173,7 +168,7 @@ void HashTableClsAdr<Data>::Resize(const ulong INtablesize) {
 // Specific member functions (inherited from ClearableContainer)
 
 template <typename Data>
-void HashTableClsAdr<Data>::Clear() {
+inline void HashTableClsAdr<Data>::Clear() {
   HashTableClsAdr<Data> newht(MIN_TABLESIZE);
   std::swap(*this, newht);
 }

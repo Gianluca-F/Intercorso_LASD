@@ -158,7 +158,7 @@ bool HashTableOpnAdr<Data>::Insert(Data && dat) {
   /* ~~~ Case 2: cella logicamente vuota => il dato potrebbe essere altrove ~~~ */
   if(states[key] == state::DELETED) {
     if(Remove(dat, ++index)) {
-      table[key] = std::move(dat);
+      std::swap(table[key], dat);
       states[key] = state::FULL;
       return false;
     }
@@ -166,19 +166,17 @@ bool HashTableOpnAdr<Data>::Insert(Data && dat) {
 
   /* ~~~ Case 3: cella fisicamente vuota => il dato non è presente ~~~ */
   ++size;
-  table[key] = std::move(dat);
+  std::swap(table[key], dat);
   states[key] = state::FULL;
   return true;
 }
 
 template <typename Data>
-bool HashTableOpnAdr<Data>::Remove(const Data & dat) {
+inline bool HashTableOpnAdr<Data>::Remove(const Data & dat) {
   if(size <= tablesize / 8) {
     Reduce();
   }
-
-  ulong index = 0;
-  if(Remove(dat, index)) {
+  if(Remove(dat, 0)) {
     --size;
     return true;
   }
@@ -190,9 +188,8 @@ bool HashTableOpnAdr<Data>::Remove(const Data & dat) {
 // Specific member functions (inherited from TestableContainer)
 
 template <typename Data>
-bool HashTableOpnAdr<Data>::Exists(const Data & dat) const noexcept {
-  ulong index = 0;
-  ulong key = Find(dat, index);
+inline bool HashTableOpnAdr<Data>::Exists(const Data & dat) const noexcept {
+  ulong key = Find(dat, 0);
   return ((states[key] == state::FULL) && (table[key] == dat));
 }
 
@@ -201,11 +198,7 @@ bool HashTableOpnAdr<Data>::Exists(const Data & dat) const noexcept {
 // Specific member functions (inherited from ResizableContainer)
 
 template <typename Data>
-void HashTableOpnAdr<Data>::Resize(const ulong INtablesize) {
-  ulong newtablesize = MIN_TABLESIZE;
-  while(newtablesize < INtablesize) {
-    newtablesize *= 2;
-  }
+void HashTableOpnAdr<Data>::Resize(const ulong newtablesize) {
   HashTableOpnAdr<Data> newht(newtablesize);
   for(ulong i = 0; i < tablesize; ++i) {
     if(states[i] == state::FULL) {
@@ -220,7 +213,7 @@ void HashTableOpnAdr<Data>::Resize(const ulong INtablesize) {
 // Specific member functions (inherited from ClearableContainer)
 
 template <typename Data>
-void HashTableOpnAdr<Data>::Clear() {
+inline void HashTableOpnAdr<Data>::Clear() {
   HashTableOpnAdr<Data> newht(MIN_TABLESIZE);
   std::swap(*this, newht);
 }
@@ -231,68 +224,54 @@ void HashTableOpnAdr<Data>::Clear() {
 
 template <typename Data>
 inline ulong HashTableOpnAdr<Data>::HashKey(const ulong key, const ulong i) const noexcept {
-  return (key + (i*(i+1)) / 2) % tablesize;
+  return (key + (i * (i + 1)) / 2) % tablesize;
 }
 
 template <typename Data>
-ulong HashTableOpnAdr<Data>::Find(const Data & dat, ulong & i) const noexcept {
+ulong HashTableOpnAdr<Data>::Find(const Data & dat, ulong i) const noexcept {
   ulong hash = HashKey(dat);
-  ulong key = hash;
-  while(i<tablesize) {
+  ulong key;
+  do {
     key = HashKey(hash, i);
-    if(states[key] == state::EMPTY) {
-      return key;
-    }
-    if(states[key] == state::FULL && table[key] == dat) {
+    if(states[key] == state::EMPTY || (states[key] == state::FULL && table[key] == dat)) {
       return key;
     }
     ++i;
-  }
+  } while (i < tablesize);
   return key;
 }
 
 template <typename Data>
 ulong HashTableOpnAdr<Data>::FindEmpty(const Data & dat, ulong & i) const noexcept {
   ulong hash = HashKey(dat);
-  ulong key = hash;
-  while(i<tablesize) {
+  ulong key;
+  do {
     key = HashKey(hash, i);
-    if(states[key] == state::EMPTY || states[key] == state::DELETED) {
-      return key;
-    }
-    if(states[key] == state::FULL && table[key] == dat) {
+    if(states[key] != state::FULL || table[key] == dat) {
       return key;
     }
     ++i;
-  }
+  } while (i < tablesize);
   return key;
 }
 
 template <typename Data>
-bool HashTableOpnAdr<Data>::Remove(const Data & dat, ulong & i) noexcept {
-  ulong hash = HashKey(dat);
-  ulong key = hash;
-  while(i<tablesize) {
-    key = HashKey(hash, i);
-    if(states[key] == state::EMPTY) {
-      return false;
-    }
-    if(states[key] == state::FULL && table[key] == dat) {
-      states[key] = state::DELETED;
-      return true;
-    }
-    ++i;
+inline bool HashTableOpnAdr<Data>::Remove(const Data & dat, ulong i) noexcept {
+  ulong key = Find(dat, i);
+  if(states[key] == state::FULL && table[key] == dat) {
+    states[key] = state::DELETED;
+    return true;
   }
   return false;
 }
 
 template <typename Data>
-void HashTableOpnAdr<Data>::Expand() {
+inline void HashTableOpnAdr<Data>::Expand() {
   Resize(tablesize * 2);
 }
 
 template <typename Data>
-void HashTableOpnAdr<Data>::Reduce() {
+inline void HashTableOpnAdr<Data>::Reduce() {
   Resize(tablesize / 2);
 }
 
