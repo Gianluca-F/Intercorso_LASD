@@ -27,7 +27,7 @@ public:
 
   virtual ulong operator()(const double & dat) const noexcept {
     long intgpart = floor(dat);
-    long fracpart = pow(2, 24) * (dat - intgpart);
+    long fracpart = pow(2, 24) * (dat - intgpart) + 1;
     return intgpart * fracpart;
   }
 
